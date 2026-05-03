@@ -25,6 +25,7 @@ import AuthContext from "../../AuthContext/authContext";
 import headerObject from "../../utils/headerObject";
 import timeAgoShort from "../../utils/timeAgo";
 import useGet from "../../CustomHooks/useGetPosts";
+import { Link } from "react-router-dom";
 
 // ─ API functions (outside component — stable, no recreation)
 
@@ -213,16 +214,23 @@ const AllComments = ({ post, comment, likeCommentFn, isPending }) => {
     <div className="space-y-2 my-4 px-2 flex justify-between relative">
       <div className="relative flex items-start gap-2 w-full">
         {/* Avatar */}
-        <img
-          src={photo}
-          className="mt-0.5 h-8 w-8 rounded-full object-cover shrink-0"
-          alt={name}
-        />
+        <Link to={`/profile/${commentCreatorId}`}>
+          <img
+            src={photo}
+            className="mt-0.5 h-8 w-8 rounded-full object-cover shrink-0"
+            alt={name}
+          />
+        </Link>
 
         <div className="min-w-0 flex-1">
           {/* Comment bubble */}
           <div className="relative inline-block max-w-full rounded-2xl bg-[#f0f2f5] px-3 py-2">
-            <p className="text-xs font-bold text-slate-900">{name}</p>
+            <Link
+              to={`/profile/${commentCreatorId}`}
+              className="text-xs font-bold text-slate-900 hover:underline"
+            >
+              {name}
+            </Link>
 
             {clickUpdate ? (
               <form
@@ -377,15 +385,20 @@ const AllComments = ({ post, comment, likeCommentFn, isPending }) => {
               ) : commentReplies?.length > 0 ? (
                 commentReplies.map((reply) => (
                   <div key={reply._id} className="flex items-start gap-2">
-                    <img
-                      src={reply.commentCreator?.photo}
-                      alt={reply.commentCreator?.name}
-                      className="h-7 w-7 rounded-full object-cover shrink-0"
-                    />
+                    <Link to={`/profile/${reply.commentCreator?._id}`}>
+                      <img
+                        src={reply.commentCreator?.photo}
+                        alt={reply.commentCreator?.name}
+                        className="h-7 w-7 rounded-full object-cover shrink-0"
+                      />
+                    </Link>
                     <div className="rounded-2xl bg-[#f0f2f5] px-3 py-2">
-                      <p className="text-xs font-bold text-slate-900">
+                      <Link
+                        to={`/profile/${reply.commentCreator?._id}`}
+                        className="text-xs font-bold text-slate-900 hover:underline"
+                      >
                         {reply.commentCreator?.name}
-                      </p>
+                      </Link>
                       <p className="text-xs text-slate-500">
                         @{reply.commentCreator?.username} ·{" "}
                         {timeAgoShort(reply.createdAt)}

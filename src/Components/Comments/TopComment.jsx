@@ -1,9 +1,10 @@
 import React from "react";
 import timeAgoShort from "../../utils/timeAgo";
+import { Link } from "react-router-dom";
 
 const TopComment = ({ comment, clickComment, setClickComment }) => {
   const { content, createdAt } = comment;
-  const { name, photo, username } = comment.commentCreator;
+  const { name, photo, username, _id } = comment.commentCreator;
 
   return (
     <>
@@ -12,13 +13,20 @@ const TopComment = ({ comment, clickComment, setClickComment }) => {
           Top Comment
         </p>
         <div className="flex items-start gap-2">
-          <img
-            src={photo}
-            alt="creator"
-            className="h-8 w-8 rounded-full object-cover"
-          />
+          <Link to={`/profile/${_id}`}>
+            <img
+              src={photo}
+              alt="creator"
+              className="h-8 w-8 rounded-full object-cover"
+            />
+          </Link>
           <div className="min-w-0 flex-1 rounded-2xl bg-white px-3 py-2">
-            <p className="truncate text-xs font-bold text-slate-900">{name}</p>
+            <Link
+              to={`/profile/${_id}`}
+              className="truncate text-xs font-bold text-slate-900 hover:underline"
+            >
+              {name}
+            </Link>
             <p className="text-xs text-slate-500">
               @{username} · {timeAgoShort(createdAt)}
             </p>

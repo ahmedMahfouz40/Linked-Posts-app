@@ -49,6 +49,10 @@ const Settings = () => {
 
       confirmPassword: z.string().min(1, "Please confirm the new password"),
     })
+    .refine((data) => data.newPassword !== data.password, {
+      message: "New password must be different from your current password",
+      path: ["newPassword"],
+    })
     .refine((data) => data.newPassword === data.confirmPassword, {
       message: "Passwords do not match",
       path: ["confirmPassword"],
@@ -79,7 +83,7 @@ const Settings = () => {
     },
     onError: (error) => {
       toast.error(error.response?.data?.message ?? "Faild to register");
-      if (error.response.data.message == "jwt malformed")
+      if (error.response?.data?.message === "jwt malformed")
         toast.error("Password Already Changed");
     },
   });

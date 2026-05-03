@@ -9,37 +9,34 @@ import axios from "axios";
 import getHeaderObject from "../../utils/headerObject";
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import Cropper from "react-easy-crop";
+import Cropper, { getCroppedImg } from "react-easy-crop";
 import ShowImage from "../../utils/ShowImage";
+
+const uploadPhoto = async (imageFile) => {
+  const formData = new FormData();
+  formData.append("photo", imageFile);
+  return axios.put(
+    "https://route-posts.routemisr.com/users/upload-photo",
+    formData,
+    getHeaderObject(),
+  );
+};
 
 const ProfilePhoto = ({ photo, name, username }) => {
   const queryClient = useQueryClient();
+
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState(null);
   const [showModal, setShowModal] = useState(false);
-
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+  const [showImageViewer, setShowImageViewer] = useState(false);
 
-  // upload request
-  const uploadPhoto = async (imageFile) => {
-    const formData = new FormData();
-    formData.append("photo", imageFile);
-
-    return axios.put(
-      "https://route-posts.routemisr.com/users/upload-photo",
-      formData,
-      getHeaderObject(),
-    );
-  };
-
-  // mutation
   const { mutate, isPending } = useMutation({
     mutationFn: uploadPhoto,
     onSuccess: () => {
       setShowModal(false);
-
-      // refresh profile data
       queryClient.invalidateQueries(["profileData"]);
     },
   });
@@ -47,16 +44,20 @@ const ProfilePhoto = ({ photo, name, username }) => {
   function handlePhotoChange(e) {
     const selectedFile = e.target.files[0];
     if (!selectedFile) return;
-
     setFile(selectedFile);
     setPreview(URL.createObjectURL(selectedFile));
     setShowModal(true);
   }
 
-  function handleUpload() {
-    mutate(file);
+  async function handleUpload() {
+    // getCroppedImg from react-easy-crop handles all the canvas logic for us
+    const croppedBlob = await getCroppedImg(preview, croppedAreaPixels);
+    const croppedFile = new File([croppedBlob], file.name, {
+      type: "image/jpeg",
+    });
+    mutate(croppedFile);
   }
-  const [showImageViewer, setShowImageViewer] = useState(false);
+
   return (
     <>
       {/* PROFILE INFO */}
@@ -80,7 +81,6 @@ const ProfilePhoto = ({ photo, name, username }) => {
 
           <label className="absolute bottom-1 right-1 flex h-9 w-9 cursor-pointer items-center justify-center rounded-full bg-blue-600 text-white shadow-sm hover:bg-blue-700">
             <FontAwesomeIcon icon={faCamera} />
-
             <input
               type="file"
               className="hidden"
@@ -97,7 +97,6 @@ const ProfilePhoto = ({ photo, name, username }) => {
           <p className="mt-1 text-lg font-semibold text-slate-500">
             @{username || "loading_username"}
           </p>
-
           <div className="mt-3 inline-flex items-center gap-2 rounded-full border border-[#d7e7ff] bg-[#eef6ff] px-3 py-1 text-xs font-bold text-[#0b57d0]">
             <FontAwesomeIcon icon={faUsers} />
             Route Posts member
@@ -105,13 +104,12 @@ const ProfilePhoto = ({ photo, name, username }) => {
         </div>
       </div>
 
-      {/* MODAL */}
+      {/* CROP MODAL */}
       {showModal && (
         <div className="fixed -top-25 start-[50%] translate-x-[-50%] z-50 flex items-center justify-center shadow-2xl">
           <div className="bg-white rounded-xl p-6 w-105">
             <h2 className="text-xl font-bold mb-3">Adjust profile photo</h2>
 
-            {/* IMAGE CROPPER */}
             <div className="relative w-full h-75 bg-gray-200 rounded-lg overflow-hidden">
               <Cropper
                 image={preview}
@@ -121,25 +119,25 @@ const ProfilePhoto = ({ photo, name, username }) => {
                 cropShape="round"
                 onCropChange={setCrop}
                 onZoomChange={setZoom}
+                onCropComplete={(_, croppedAreaPixels) =>
+                  setCroppedAreaPixels(croppedAreaPixels)
+                }
               />
             </div>
 
-            {/* ZOOM */}
             <div className="mt-4">
               <p className="text-sm mb-1">Zoom</p>
-
               <input
                 type="range"
                 min={1}
                 max={3}
                 step={0.1}
                 value={zoom}
-                onChange={(e) => setZoom(e.target.value)}
+                onChange={(e) => setZoom(Number(e.target.value))}
                 className="w-full"
               />
             </div>
 
-            {/* BUTTONS */}
             <div className="flex justify-end gap-3 mt-6">
               <button
                 onClick={() => setShowModal(false)}
@@ -155,8 +153,8 @@ const ProfilePhoto = ({ photo, name, username }) => {
               >
                 {isPending ? (
                   <>
-                    <FontAwesomeIcon icon={faSpinner} spin />{" "}
-                    "Uploading..."{" "}
+                    <FontAwesomeIcon icon={faSpinner} spin />
+                    Uploading...
                   </>
                 ) : (
                   "Save photo"
@@ -170,10 +168,7 @@ const ProfilePhoto = ({ photo, name, username }) => {
       <ShowImage
         showImageViewer={showImageViewer}
         setShowImageViewer={setShowImageViewer}
-        Info={{
-          name,
-          photo,
-        }}
+        Info={{ name, photo }}
       />
     </>
   );

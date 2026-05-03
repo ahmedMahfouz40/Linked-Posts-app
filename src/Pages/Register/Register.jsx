@@ -40,6 +40,7 @@ const Register = () => {
       password: "",
       rePassword: "",
     },
+    mode: "onChange",
     resolver: zodResolver(scheme),
   });
 
@@ -52,7 +53,7 @@ const Register = () => {
       navigate("/auth/login");
     },
     onError: (error) => {
-      toast.error(error.response?.data?.message, {
+      toast.error(error.response?.data?.message ?? "Faild to sign up", {
         position: "top-center",
       });
     },
