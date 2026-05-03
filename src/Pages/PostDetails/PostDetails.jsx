@@ -36,7 +36,7 @@ const PostDetails = () => {
         </title>
       </Helmet>
       <div className="bg-[#F0F2F5]">
-        <div className="max-w-[90%] sm:max-w-[80%] md:max-w-[70%] xl:max-w-[60%] mx-auto my-10">
+        <div className="max-w-[95%] md:max-w-[90%] xl:max-w-[80%] mx-auto my-10">
           <button
             onClick={handleBack}
             className="mt-10 cursor-pointer rounded-lg bg-white px-4 py-2 hover:bg-slate-200 transition"

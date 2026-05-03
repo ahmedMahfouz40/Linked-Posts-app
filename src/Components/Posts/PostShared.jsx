@@ -6,6 +6,7 @@ import PostImage from "./PostImage";
 
 const PostShared = ({ post }) => {
   const { body, image, user, id } = post?.sharedPost || {};
+  
   if (!post) return null;
   return (
     <div className="mx-4 my-3 overflow-hidden rounded-xl border border-slate-200 bg-slate-50">

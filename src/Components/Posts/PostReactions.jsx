@@ -20,10 +20,11 @@ function toggleLike(postId) {
   );
 }
 
-function sharePost(postId) {
+//  updated to accept optional body
+function sharePost(postId, body) {
   return axios.post(
     `https://route-posts.routemisr.com/posts/${postId}/share`,
-    {},
+    { body },
     headerObject(),
   );
 }
@@ -31,6 +32,10 @@ function sharePost(postId) {
 const PostReactions = ({ post, isDetails, setClickComment }) => {
   const queryClient = useQueryClient();
   const [showLikes, setShowLikes] = useState(false);
+
+  //  new state for share UI
+  const [isShareOpen, setIsShareOpen] = useState(false);
+  const [shareBody, setShareBody] = useState("");
 
   const storageLikeKey = useMemo(() => `liked_${post._id}`, [post._id]);
 
@@ -58,11 +63,14 @@ const PostReactions = ({ post, isDetails, setClickComment }) => {
       toast.error(err?.response?.data?.message ?? "Failed to like this post"),
   });
 
+  //  updated mutation to use shareBody
   const { mutate: sharePostFn, isPending: isSharing } = useMutation({
-    mutationFn: () => sharePost(post._id),
+    mutationFn: () => sharePost(post._id, shareBody.trim() || undefined),
     onSuccess: (res) => {
       toast.success(res?.data?.message);
       queryClient.invalidateQueries(["posts"]);
+      setIsShareOpen(false);
+      setShareBody("");
     },
     onError: (err) =>
       toast.error(err?.response?.data?.message ?? "Failed to share post"),
@@ -87,7 +95,7 @@ const PostReactions = ({ post, isDetails, setClickComment }) => {
   );
 
   return (
-    <div>
+    <div className="pb-2">
       {/* Stats Section */}
       <div className="px-4 pb-2 pt-3 text-sm text-slate-500">
         <div className="flex flex-wrap items-center justify-between gap-2">
@@ -175,7 +183,6 @@ const PostReactions = ({ post, isDetails, setClickComment }) => {
           <FontAwesomeIcon icon={faThumbsUp} />
           <span>{isPending ? "Liking..." : "Like"}</span>
         </button>
-
         <button
           onClick={handleToggleComment}
           className="flex cursor-pointer items-center justify-center gap-2 rounded-md p-2 text-xs font-semibold text-slate-600 transition-colors hover:bg-slate-100 sm:text-sm"
@@ -184,15 +191,50 @@ const PostReactions = ({ post, isDetails, setClickComment }) => {
           <span>Comment</span>
         </button>
 
+        {/*  updated Share button */}
         <button
           disabled={isSharing}
-          onClick={sharePostFn}
+          onClick={() => {
+            setIsShareOpen((prev) => !prev);
+            if (!isShareOpen) setShareBody("");
+          }}
           className="disabled:cursor-not-allowed flex cursor-pointer items-center justify-center gap-2 rounded-md p-2 text-xs font-semibold text-slate-600 transition-colors hover:bg-slate-100 sm:text-sm"
         >
           <FontAwesomeIcon icon={faShareNodes} />
           <span>{isSharing ? "Sharing..." : "Share"}</span>
         </button>
       </div>
+
+      {isShareOpen && (
+        <div className="mx-4 my-2 p-3 border border-gray-200 rounded-lg bg-white ">
+          <textarea
+            placeholder="Write something (optional)..."
+            value={shareBody}
+            onChange={(e) => setShareBody(e.target.value)}
+            className="w-full  p-2 rounded text-sm outline-none resize-none"
+          />
+
+          <div className="flex justify-end gap-2 mt-2">
+            <button
+              onClick={() => {
+                setIsShareOpen(false);
+                setShareBody("");
+              }}
+              className="px-3 py-1 text-sm  cursor-pointer rounded bg-gray-100 hover:bg-gray-200"
+            >
+              Cancel
+            </button>
+
+            <button
+              disabled={isSharing}
+              onClick={sharePostFn}
+              className="px-3 py-1 text-sm cursor-pointer  rounded bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50"
+            >
+              {isSharing ? "Sharing..." : "Share"}
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
