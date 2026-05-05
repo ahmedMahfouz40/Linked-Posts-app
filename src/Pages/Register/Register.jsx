@@ -9,11 +9,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAt,
   faCalendar,
+  faEye,
+  faEyeSlash,
   faKey,
   faUser,
   faUserGroup,
 } from "@fortawesome/free-solid-svg-icons";
 import { Helmet } from "react-helmet-async";
+import { useState } from "react";
 
 function signup(values) {
   return axios.post("https://route-posts.routemisr.com/users/signup", values, {
@@ -25,7 +28,7 @@ function signup(values) {
 
 const Register = () => {
   const navigate = useNavigate();
-
+  const [showPasswrod, setShowPassword] = useState(null);
   const {
     handleSubmit,
     register,
@@ -211,9 +214,24 @@ const Register = () => {
                 placeholder="Password"
                 autoComplete="off"
                 className="w-full rounded-xl border bg-slate-50 py-3 pl-11 pr-4 text-sm text-slate-800 outline-none transition focus:bg-white border-slate-200 focus:border-[#00298d]"
-                type="password"
+                type={showPasswrod === "password" ? "text" : "password"}
                 name="password"
               ></input>
+              <span
+                onClick={() =>
+                  setShowPassword((prev) => {
+                    if (prev === null) setShowPassword("password");
+                    else {
+                      setShowPassword(null);
+                    }
+                  })
+                }
+                className="cursor-pointer absolute right-3 top-1/2 -translate-y-1/2 text-slate-400"
+              >
+                <FontAwesomeIcon
+                  icon={showPasswrod === "password" ? faEyeSlash : faEye}
+                />
+              </span>
             </div>
             {errors?.password && (
               <p className="text-red-500 text-[13px]">
@@ -230,9 +248,24 @@ const Register = () => {
                 placeholder="Confirm password"
                 autoComplete="off"
                 className="w-full rounded-xl border bg-slate-50 py-3 pl-11 pr-4 text-sm text-slate-800 outline-none transition focus:bg-white border-slate-200 focus:border-[#00298d]"
-                type="password"
+                type={showPasswrod === "rePassword" ? "text" : "password"}
                 name="rePassword"
               ></input>
+              <span
+                onClick={() =>
+                  setShowPassword((prev) => {
+                    if (prev === null) setShowPassword("rePassword");
+                    else {
+                      setShowPassword(null);
+                    }
+                  })
+                }
+                className="cursor-pointer absolute right-3 top-1/2 -translate-y-1/2 text-slate-400"
+              >
+                <FontAwesomeIcon
+                  icon={showPasswrod === "rePassword" ? faEyeSlash : faEye}
+                />
+              </span>
             </div>
             {errors?.rePassword && (
               <p className="text-red-500 text-[13px]">

@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -9,7 +9,12 @@ import { useMutation } from "@tanstack/react-query";
 import AuthContext from "../../AuthContext/authContext";
 import { scheme } from "../../CompRegex/LoginRegex";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAt, faKey } from "@fortawesome/free-solid-svg-icons";
+import {
+  faAt,
+  faEye,
+  faEyeSlash,
+  faKey,
+} from "@fortawesome/free-solid-svg-icons";
 import { Helmet } from "react-helmet-async";
 
 function signin(values) {
@@ -22,7 +27,7 @@ function signin(values) {
 const Login = () => {
   const { setUserToken } = useContext(AuthContext);
   const navigate = useNavigate();
-  
+  const [showPasswrod, setShowPassword] = useState(false);
   const { mutate: signinMutate, isPending } = useMutation({
     mutationFn: signin,
     onSuccess: (data) => {
@@ -127,9 +132,14 @@ const Login = () => {
                 placeholder="Password"
                 autoComplete="off"
                 className="w-full rounded-xl border bg-slate-50 py-3 pl-11 pr-4 text-sm text-slate-800 outline-none transition focus:bg-white border-slate-200 focus:border-[#00298d]"
-                type="password"
+                type={showPasswrod ? "text" : "password"}
                 name="password"
               ></input>
+              <FontAwesomeIcon
+                onClick={() => setShowPassword((prev) => !prev)}
+                icon={showPasswrod ? faEyeSlash : faEye}
+                className="text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer "
+              />
             </div>
             {errors?.password && (
               <p className="text-red-500 text-[13px]">
