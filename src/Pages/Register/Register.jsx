@@ -16,7 +16,7 @@ import {
   faUserGroup,
 } from "@fortawesome/free-solid-svg-icons";
 import { Helmet } from "react-helmet-async";
-import { useState } from "react";
+import { useReducer } from "react";
 
 function signup(values) {
   return axios.post("https://route-posts.routemisr.com/users/signup", values, {
@@ -25,10 +25,22 @@ function signup(values) {
     },
   });
 }
-
+function reducer(state, action) {
+  switch (action.type) {
+    case "password":
+      return { ...state, password: !state.password };
+    case "confirmPassword":
+      return { ...state, confirmPassword: !state.confirmPassword };
+    default:
+      return state;
+  }
+}
 const Register = () => {
   const navigate = useNavigate();
-  const [showPasswrod, setShowPassword] = useState(null);
+  const [state, dispatch] = useReducer(reducer, {
+    password: false,
+    confirmPassword: false,
+  });
   const {
     handleSubmit,
     register,
@@ -214,24 +226,16 @@ const Register = () => {
                 placeholder="Password"
                 autoComplete="off"
                 className="w-full rounded-xl border bg-slate-50 py-3 pl-11 pr-4 text-sm text-slate-800 outline-none transition focus:bg-white border-slate-200 focus:border-[#00298d] dark:bg-slate-800 dark:text-slate-100 dark:border-slate-700 dark:focus:bg-slate-900 dark:focus:border-[#8fa8ff]"
-                type={showPasswrod === "password" ? "text" : "password"}
+                type={state.password ? "text" : "password"}
                 name="password"
               ></input>
-              <span
-                onClick={() =>
-                  setShowPassword((prev) => {
-                    if (prev === null) setShowPassword("password");
-                    else {
-                      setShowPassword(null);
-                    }
-                  })
-                }
+              <button
+                type="button"
+                onClick={() => dispatch({ type: "password" })}
                 className="cursor-pointer absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500"
               >
-                <FontAwesomeIcon
-                  icon={showPasswrod === "password" ? faEyeSlash : faEye}
-                />
-              </span>
+                <FontAwesomeIcon icon={state.password ? faEyeSlash : faEye} />
+              </button>
             </div>
             {errors?.password && (
               <p className="text-red-500 text-[13px] dark:text-red-400">
@@ -248,24 +252,18 @@ const Register = () => {
                 placeholder="Confirm password"
                 autoComplete="off"
                 className="w-full rounded-xl border bg-slate-50 py-3 pl-11 pr-4 text-sm text-slate-800 outline-none transition focus:bg-white border-slate-200 focus:border-[#00298d] dark:bg-slate-800 dark:text-slate-100 dark:border-slate-700 dark:focus:bg-slate-900 dark:focus:border-[#8fa8ff]"
-                type={showPasswrod === "rePassword" ? "text" : "password"}
+                type={state.confirmPassword ? "text" : "password"}
                 name="rePassword"
               ></input>
-              <span
-                onClick={() =>
-                  setShowPassword((prev) => {
-                    if (prev === null) setShowPassword("rePassword");
-                    else {
-                      setShowPassword(null);
-                    }
-                  })
-                }
+              <button
+                type="button"
+                onClick={() => dispatch({ type: "confirmPassword" })}
                 className="cursor-pointer absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500"
               >
                 <FontAwesomeIcon
-                  icon={showPasswrod === "rePassword" ? faEyeSlash : faEye}
+                  icon={state.confirmPassword ? faEyeSlash : faEye}
                 />
-              </span>
+              </button>
             </div>
             {errors?.rePassword && (
               <p className="text-red-500 text-[13px] dark:text-red-400">
@@ -274,6 +272,7 @@ const Register = () => {
             )}
             {/* Button */}
             <button
+              type="submit"
               disabled={isPending}
               className={`w-full rounded-xl py-3 text-base font-extrabold text-white transition disabled:opacity-60 disabled:cursor-not-allowed  bg-[#00298d] hover:bg-[#001f6b] dark:bg-[#3454c7] dark:hover:bg-[#2843a8]`}
             >

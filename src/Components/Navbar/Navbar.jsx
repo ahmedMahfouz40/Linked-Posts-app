@@ -1,6 +1,6 @@
-import { useCallback, useContext } from "react";
+import { useCallback, useContext, useState } from "react";
 import Logo from "./../../assets/images/route.png";
-import { Link, Navigate, NavLink, useNavigate } from "react-router-dom";
+import {Link, NavLink, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBars,
@@ -16,7 +16,9 @@ import { toggleTheme } from "../../utils/toggleTheme";
 const Navbar = () => {
   const { unreadCount, logout, profileData } = useContext(AuthContext);
   const navigate = useNavigate();
-
+  const [isDark, setIsDark] = useState(() =>
+    document.documentElement.classList.contains("dark"),
+  );
   const setUserLogout = useCallback(() => {
     logout();
     navigate("/auth/login");
@@ -118,11 +120,12 @@ const Navbar = () => {
               <button
                 onClick={(e) => {
                   toggleTheme();
+                  setIsDark((prev) => !prev);
                   e.currentTarget.blur();
                 }}
                 className="p-2 block rounded font-semibold text-gray-700 tracking-wide border-b border-gray-300 dark:text-slate-200 dark:border-slate-600 dark:hover:bg-slate-700"
               >
-                <FontAwesomeIcon icon={faMoon} /> Theme
+                <FontAwesomeIcon icon={faMoon} /> {isDark ? "light" : "Dark"}
               </button>
             </li>
             <li>

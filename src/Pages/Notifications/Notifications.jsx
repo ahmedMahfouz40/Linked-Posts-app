@@ -72,7 +72,7 @@ const Notifications = () => {
       <Helmet>
         <title>Notifications | Route Posts</title>
       </Helmet>
-      <div className="p-1 bg-[#F0F2F5] sm:px-5 md:px-10 lg:px-20 dark:bg-slate-950">
+      <div className="p-1 bg-[#F0F2F5] sm:px-5 md:px-10 lg:px-20 dark:bg-slate-950 min-h-screen">
         <div className="bg-white my-20 rounded-2xl dark:bg-slate-900">
           <NotificationsHeader
             unreadCount={unreadNotifications?.length || 0}

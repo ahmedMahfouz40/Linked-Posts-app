@@ -97,8 +97,8 @@ const PostReactions = ({ post, isDetails, setClickComment }) => {
   return (
     <div className="pb-2">
       {/* Stats Section */}
-      <div className="px-4 pb-2 pt-3 text-sm text-slate-500 dark:text-slate-400">
-        <div className="flex flex-wrap items-center justify-between gap-2">
+      <div className="px-2 sm:px-4 pb-2 pt-3 text-sm text-slate-500 dark:text-slate-400">
+        <div className="flex flex-wrap items-center justify-between ">
           <div className="flex items-center gap-2">
             <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-[#1877f2] text-white dark:bg-[#3454c7]">
               <FontAwesomeIcon icon={faThumbsUp} size="xs" />
@@ -111,7 +111,7 @@ const PostReactions = ({ post, isDetails, setClickComment }) => {
             </button>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2 text-xs sm:gap-3 sm:text-sm">
+          <div className="flex flex-wrap items-center ms-auto gap-2 text-xs sm:gap-3 sm:text-sm">
             <span>{post.sharesCount} shares</span>
             <span>{post.commentsCount} comments</span>
             {!isDetails && (
@@ -132,7 +132,9 @@ const PostReactions = ({ post, isDetails, setClickComment }) => {
       {showLikes && (
         <div className="mx-4 my-2">
           {likes.length === 0 ? (
-            <p className="text-xs text-slate-400 dark:text-slate-500">No likes yet.</p>
+            <p className="text-xs text-slate-400 dark:text-slate-500">
+              No likes yet.
+            </p>
           ) : (
             <>
               <p className="text-xs font-semibold uppercase tracking-wide text-slate-400 mb-2 dark:text-slate-500">
@@ -162,7 +164,9 @@ const PostReactions = ({ post, isDetails, setClickComment }) => {
                       <p className="text-sm font-semibold text-slate-900 truncate dark:text-slate-100">
                         {like.name}
                       </p>
-                      <p className="text-xs text-slate-500 dark:text-slate-400">@{like.username}</p>
+                      <p className="text-xs text-slate-500 dark:text-slate-400">
+                        @{like.username}
+                      </p>
                     </div>
                   </Link>
                 ))}

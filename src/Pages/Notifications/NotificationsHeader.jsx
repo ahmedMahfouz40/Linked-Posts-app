@@ -29,7 +29,7 @@ const NotificationsHeader = ({ unreadCount, activeTab, setActiveTab }) => {
 
   return (
     <div>
-      <div className="border-b border-slate-200 p-4 sm:p-5 dark:border-slate-700">
+      <div className="border-b border-slate-200 p-4 sm:p-5  dark:border-slate-700">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
             <h2 className="text-xl font-black text-slate-900 sm:text-2xl dark:text-white">

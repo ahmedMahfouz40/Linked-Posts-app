@@ -73,7 +73,7 @@ const UserProfile = () => {
   );
 
   return (
-    <div className="mx-auto max-w-7xl px-5 sm:px-20 md:px-30 xl:px-40 py-3.5 mt-20">
+    <div className="mx-auto max-w-7xl px-5 sm:px-20 md:px-30 xl:px-40 py-20">
       <Helmet>
         <title>
           {UserInfo?.name
