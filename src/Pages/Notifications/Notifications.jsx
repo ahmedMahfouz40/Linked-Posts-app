@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
@@ -71,8 +72,8 @@ const Notifications = () => {
       <Helmet>
         <title>Notifications | Route Posts</title>
       </Helmet>
-      <div className="p-1 bg-[#F0F2F5] sm:px-5 md:px-10 lg:px-20">
-        <div className="bg-white my-20 rounded-2xl">
+      <div className="p-1 bg-[#F0F2F5] sm:px-5 md:px-10 lg:px-20 dark:bg-slate-950">
+        <div className="bg-white my-20 rounded-2xl dark:bg-slate-900">
           <NotificationsHeader
             unreadCount={unreadNotifications?.length || 0}
             activeTab={activeTab}
@@ -94,8 +95,8 @@ const Notifications = () => {
 
             {activeTab !== "all" && unreadNotifications?.length === 0 && (
               <div className="space-y-2 p-3 sm:p-4">
-                <div className="rounded-xl border border-slate-200 bg-slate-50 p-8 text-center">
-                  <p className="text-sm font-semibold text-slate-500">
+                <div className="rounded-xl border border-slate-200 bg-slate-50 p-8 text-center dark:border-slate-700 dark:bg-slate-800">
+                  <p className="text-sm font-semibold text-slate-500 dark:text-slate-400">
                     No unread notifications yet.
                   </p>
                 </div>

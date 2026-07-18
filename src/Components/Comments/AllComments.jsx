@@ -20,12 +20,11 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import axios from "axios";
-import React from "react";
-import AuthContext from "../../AuthContext/authContext";
-import headerObject from "../../utils/headerObject";
+import React from "react";import headerObject from "../../utils/headerObject";
 import timeAgoShort from "../../utils/timeAgo";
 import useGet from "../../CustomHooks/useGetPosts";
 import { Link } from "react-router-dom";
+import AuthContext from "../../Contexts/AuthContext/authContext";
 
 // ─ API functions (outside component — stable, no recreation)
 
@@ -133,11 +132,7 @@ const AllComments = ({ post, comment, likeCommentFn, isPending }) => {
   });
 
   //  Replies
-  const {
-    data: repliesData,
-    isFetching,
-    refetch: refetchReplies,
-  } = useGet(
+  const { data: repliesData, isFetching } = useGet(
     ["commentReplies", comment._id],
     `posts/${comment.post}/comments/${comment._id}/replies?page=1&limit=10`,
     showReplies,
@@ -180,7 +175,6 @@ const AllComments = ({ post, comment, likeCommentFn, isPending }) => {
       setShowReplies(true);
 
       await queryClient.invalidateQueries(["commentReplies", comment._id]);
-      refetchReplies();
     },
     onError: (err) =>
       toast.error(err?.response?.data?.message ?? "Failed to create reply"),
@@ -224,10 +218,10 @@ const AllComments = ({ post, comment, likeCommentFn, isPending }) => {
 
         <div className="min-w-0 flex-1">
           {/* Comment bubble */}
-          <div className="relative inline-block max-w-full rounded-2xl bg-[#f0f2f5] px-3 py-2">
+          <div className="relative inline-block max-w-full rounded-2xl bg-[#f0f2f5] px-3 py-2 dark:bg-slate-800">
             <Link
               to={`/profile/${commentCreatorId}`}
-              className="text-xs font-bold text-slate-900 hover:underline"
+              className="text-xs font-bold text-slate-900 hover:underline dark:text-slate-100"
             >
               {name}
             </Link>
@@ -239,25 +233,25 @@ const AllComments = ({ post, comment, likeCommentFn, isPending }) => {
               >
                 <input
                   {...register("content")}
-                  className="w-full rounded-full border border-slate-300 bg-white px-3 py-1.5 text-sm"
+                  className="w-full rounded-full border border-slate-300 bg-white px-3 py-1.5 text-sm dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100"
                 />
                 <button
                   type="submit"
-                  className="rounded-full bg-[#1877f2] px-3 py-1.5 text-xs font-bold text-white hover:bg-[#166fe5]"
+                  className="rounded-full bg-[#1877f2] px-3 py-1.5 text-xs font-bold text-white hover:bg-[#166fe5] dark:bg-[#3454c7] dark:hover:bg-[#2843a8]"
                 >
                   Save
                 </button>
                 <button
                   type="button"
                   onClick={() => setClickUpdate(false)}
-                  className="rounded-full border border-slate-300 bg-white px-3 py-1.5 text-xs font-bold text-slate-700 hover:bg-slate-100"
+                  className="rounded-full border border-slate-300 bg-white px-3 py-1.5 text-xs font-bold text-slate-700 hover:bg-slate-100 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-slate-800"
                 >
                   Cancel
                 </button>
               </form>
             ) : (
               <div>
-                <p className="mt-1 whitespace-pre-wrap text-sm text-slate-800">
+                <p className="mt-1 whitespace-pre-wrap text-sm text-slate-800 dark:text-slate-200">
                   {content}
                 </p>
                 {image && (
@@ -273,7 +267,7 @@ const AllComments = ({ post, comment, likeCommentFn, isPending }) => {
 
           {/* Actions row */}
           <div className="mt-1.5 flex items-center gap-4 px-1">
-            <span className="text-xs font-semibold text-slate-400">
+            <span className="text-xs font-semibold text-slate-400 dark:text-slate-500">
               {timeAgoShort(createdAt)}
             </span>
 
@@ -281,7 +275,7 @@ const AllComments = ({ post, comment, likeCommentFn, isPending }) => {
               disabled={isPending}
               onClick={handleLike}
               className={`text-xs font-semibold cursor-pointer hover:underline disabled:opacity-60 disabled:cursor-not-allowed transition-colors
-                ${isCommentLiked ? "text-[#1877f2]" : "text-slate-500"}`}
+                ${isCommentLiked ? "text-[#1877f2] dark:text-[#63b3ff]" : "text-slate-500 dark:text-slate-400"}`}
             >
               Like ({comment.likes.length})
             </button>
@@ -289,7 +283,7 @@ const AllComments = ({ post, comment, likeCommentFn, isPending }) => {
             <button
               type="button"
               onClick={handleToggleReplyForm}
-              className="text-xs cursor-pointer font-semibold transition hover:underline text-slate-500 hover:text-[#1877f2]"
+              className="text-xs cursor-pointer font-semibold transition hover:underline text-slate-500 hover:text-[#1877f2] dark:text-slate-400 dark:hover:text-[#63b3ff]"
             >
               Reply ({comment.repliesCount})
             </button>
@@ -298,7 +292,7 @@ const AllComments = ({ post, comment, likeCommentFn, isPending }) => {
               <button
                 type="button"
                 onClick={handleToggleReplies}
-                className="text-xs cursor-pointer font-semibold transition hover:underline text-[#1877f2]"
+                className="text-xs cursor-pointer font-semibold transition hover:underline text-[#1877f2] dark:text-[#63b3ff]"
               >
                 {showReplies ? "Hide replies" : "View replies"}
               </button>
@@ -314,13 +308,13 @@ const AllComments = ({ post, comment, likeCommentFn, isPending }) => {
                   alt={profileData?.name}
                   className="h-7 w-7 rounded-full object-cover mt-1 shrink-0"
                 />
-                <div className="flex-1 rounded-2xl border border-slate-200 bg-[#f0f2f5] px-2.5 py-1.5 focus-within:border-[#c7dafc] focus-within:bg-white transition">
+                <div className="flex-1 rounded-2xl border border-slate-200 bg-[#f0f2f5] px-2.5 py-1.5 focus-within:border-[#c7dafc] focus-within:bg-white transition dark:border-slate-700 dark:bg-slate-800 dark:focus-within:border-[#3454c7] dark:focus-within:bg-slate-900">
                   <form onSubmit={handleReplySubmit(createReplyFn)}>
                     <textarea
                       {...registerReply("content")}
                       placeholder={`Reply as ${profileData?.name}...`}
                       rows={1}
-                      className="max-h-28 min-h-8 w-full resize-none bg-transparent px-2 py-1 text-sm leading-5 outline-none placeholder:text-slate-500"
+                      className="max-h-28 min-h-8 w-full resize-none bg-transparent px-2 py-1 text-sm leading-5 outline-none placeholder:text-slate-500 dark:text-slate-100 dark:placeholder:text-slate-500"
                     />
 
                     {replyPreview && (
@@ -343,7 +337,7 @@ const AllComments = ({ post, comment, likeCommentFn, isPending }) => {
                     <div className="flex items-center justify-between mt-1">
                       <label
                         htmlFor={`reply-image-${comment._id}`}
-                        className="inline-flex cursor-pointer items-center justify-center rounded-full p-1.5 text-slate-500 transition hover:bg-slate-200 hover:text-emerald-600"
+                        className="inline-flex cursor-pointer items-center justify-center rounded-full p-1.5 text-slate-500 transition hover:bg-slate-200 hover:text-emerald-600 dark:text-slate-400 dark:hover:bg-slate-700"
                       >
                         <FontAwesomeIcon icon={faImage} className="text-sm" />
                         <input
@@ -362,7 +356,7 @@ const AllComments = ({ post, comment, likeCommentFn, isPending }) => {
                       <button
                         type="submit"
                         disabled={isReplying}
-                        className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#1877f2] text-white transition hover:bg-[#166fe5] disabled:opacity-60 disabled:cursor-not-allowed"
+                        className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#1877f2] text-white transition hover:bg-[#166fe5] disabled:opacity-60 disabled:cursor-not-allowed dark:bg-[#3454c7] dark:hover:bg-[#2843a8]"
                       >
                         <FontAwesomeIcon
                           icon={isReplying ? faSpinner : faPaperPlane}
@@ -381,7 +375,7 @@ const AllComments = ({ post, comment, likeCommentFn, isPending }) => {
           {showReplies && (
             <div className="mt-2 ml-8 space-y-2">
               {isFetching ? (
-                <p className="text-xs text-slate-400">Loading replies...</p>
+                <p className="text-xs text-slate-400 dark:text-slate-500">Loading replies...</p>
               ) : commentReplies?.length > 0 ? (
                 commentReplies.map((reply) => (
                   <div key={reply._id} className="flex items-start gap-2">
@@ -392,18 +386,18 @@ const AllComments = ({ post, comment, likeCommentFn, isPending }) => {
                         className="h-7 w-7 rounded-full object-cover shrink-0"
                       />
                     </Link>
-                    <div className="rounded-2xl bg-[#f0f2f5] px-3 py-2">
+                    <div className="rounded-2xl bg-[#f0f2f5] px-3 py-2 dark:bg-slate-800">
                       <Link
                         to={`/profile/${reply.commentCreator?._id}`}
-                        className="text-xs font-bold text-slate-900 hover:underline"
+                        className="text-xs font-bold text-slate-900 hover:underline dark:text-slate-100"
                       >
                         {reply.commentCreator?.name}
                       </Link>
-                      <p className="text-xs text-slate-500">
+                      <p className="text-xs text-slate-500 dark:text-slate-400">
                         @{reply.commentCreator?.username} ·{" "}
                         {timeAgoShort(reply.createdAt)}
                       </p>
-                      <p className="mt-1 text-sm text-slate-800">
+                      <p className="mt-1 text-sm text-slate-800 dark:text-slate-200">
                         {reply.content}
                       </p>
                       {reply.image && (
@@ -417,7 +411,7 @@ const AllComments = ({ post, comment, likeCommentFn, isPending }) => {
                   </div>
                 ))
               ) : (
-                <p className="text-xs text-slate-400">No replies yet.</p>
+                <p className="text-xs text-slate-400 dark:text-slate-500">No replies yet.</p>
               )}
             </div>
           )}
@@ -428,15 +422,15 @@ const AllComments = ({ post, comment, likeCommentFn, isPending }) => {
       {commentCreatorId === profileUserId && (
         <div ref={menuRef}>
           <span onClick={handleToggleMenu} className="cursor-pointer">
-            <FontAwesomeIcon icon={faEllipsis} className="text-gray-600" />
+            <FontAwesomeIcon icon={faEllipsis} className="text-gray-600 dark:text-slate-400" />
           </span>
           <div
-            className={`absolute end-10 bg-white shadow rounded-xl border border-gray-300 flex flex-col gap-2 text-sm z-10 ${!isOpen && "hidden"}`}
+            className={`absolute end-10 bg-white shadow rounded-xl border border-gray-300 flex flex-col gap-2 text-sm z-10 dark:bg-slate-800 dark:border-slate-600 dark:shadow-slate-950/40 ${!isOpen && "hidden"}`}
           >
             <button
               type="button"
               onClick={handleEditClick}
-              className="text-gray-600 cursor-pointer w-full text-start hover:bg-gray-200 py-2 px-3 rounded"
+              className="text-gray-600 cursor-pointer w-full text-start hover:bg-gray-200 py-2 px-3 rounded dark:text-slate-300 dark:hover:bg-slate-700"
             >
               <FontAwesomeIcon icon={faPen} /> Edit
             </button>
@@ -444,7 +438,7 @@ const AllComments = ({ post, comment, likeCommentFn, isPending }) => {
               type="button"
               onClick={deleteFn}
               disabled={isDeleting}
-              className="text-red-600 cursor-pointer hover:bg-red-100 py-2 px-3 rounded disabled:opacity-60"
+              className="text-red-600 cursor-pointer hover:bg-red-100 py-2 px-3 rounded disabled:opacity-60 dark:text-red-400 dark:hover:bg-red-500/10"
             >
               <FontAwesomeIcon
                 icon={isDeleting ? faSpinner : faTrash}

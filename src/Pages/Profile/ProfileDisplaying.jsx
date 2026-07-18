@@ -21,12 +21,12 @@ const ProfileDisplaying = ({ posts, bookmarks, isSaving, isPosting }) => {
         <>
           {toggleHeader === "myPosts" && (
             !posts?.length
-              ? <p className="text-center text-gray-400 mt-10">No posts yet.</p>
+              ? <p className="text-center text-gray-400 mt-10 dark:text-slate-500">No posts yet.</p>
               : posts.map((post) => <PostCard post={post} key={post._id} />)
           )}
           {toggleHeader === "saved" && (
             !bookmarks?.length
-              ? <p className="text-center text-gray-400 mt-10">No saved posts yet.</p>
+              ? <p className="text-center text-gray-400 mt-10 dark:text-slate-500">No saved posts yet.</p>
               : bookmarks.map((post) => <PostCard post={post} key={post._id} />)
           )}
         </>

@@ -1,4 +1,4 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import {
   createBrowserRouter,
   RouterProvider,
@@ -10,22 +10,16 @@ import {
   QueryClientProvider,
 } from "@tanstack/react-query";
 import { ToastContainer } from "react-toastify";
-import AuthContextProvider from "./AuthContext/AuthContextProvider";
 import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
 import "./App.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import AuthContextProvider from "./Contexts/AuthContext/AuthContextProvider";
 
-//  Lazy-load every page-level component 
-const MainLayout = lazy(
-  () => import("./Components/Layouts/MainLayout/MainLayout"),
-);
-const HomeLayout = lazy(
-  () => import("./Components/Layouts/HomeLayout/HomeLayout"),
-);
-const FeedLayout = lazy(
-  () => import("./Components/Layouts/FeedLayout/FeedLayout"),
-);
+//  Lazy-load every page-level component
+const MainLayout = lazy(() => import("./Layouts/MainLayout/MainLayout"));
+const HomeLayout = lazy(() => import("./Layouts/HomeLayout/HomeLayout"));
+const FeedLayout = lazy(() => import("./Layouts/FeedLayout/FeedLayout"));
 
 const MyFeed = lazy(() => import("./Components/MyFeed/MyFeed"));
 const MyPosts = lazy(() => import("./Components/MyPosts/MyPosts"));
@@ -102,6 +96,16 @@ const router = createBrowserRouter([
   { path: "*", element: <Navigate to="/" replace /> },
 ]);
 export default function App() {
+  useEffect(() => {
+    const theme = localStorage.getItem("theme");
+
+    if (theme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, []);
+
   return (
     <QueryClientProvider client={client}>
       <AuthContextProvider>

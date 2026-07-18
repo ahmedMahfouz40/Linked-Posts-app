@@ -14,7 +14,7 @@ const ProfileHeaderSkeleton = () => {
         <Skeleton width={`40%`} height={18} className="mb-1" />
 
         {/* Privacy selector */}
-        <div className="mt-1 inline-flex items-center gap-2 rounded-full bg-slate-100 px-2 py-1">
+        <div className="mt-1 inline-flex items-center gap-2 rounded-full bg-slate-100 dark:bg-gray-800 px-2 py-1">
           <Skeleton width={20} height={20} circle /> {/* placeholder for icon */}
           <Skeleton width={80} height={16} /> {/* placeholder for select */}
         </div>

@@ -1,8 +1,8 @@
 import { lazy, Suspense, useContext } from "react";
 import useGet from "../../CustomHooks/useGetPosts";
 import LoadingSkeleton from "../LoadingSkeleton/LoadingSkeleton";
-import AuthContext from "../../AuthContext/authContext";
 import NoPosts from "../NoPosts/NoPosts";
+import AuthContext from "../../Contexts/AuthContext/authContext";
 
 const PostCard = lazy(() => import("../Posts/PostCard"));
 

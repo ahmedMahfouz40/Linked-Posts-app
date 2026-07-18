@@ -11,7 +11,7 @@ const PostImage = ({ postImage }) => {
 
   return (
     <>
-      <div className="max-h-120 overflow-hidden border-y border-slate-200">
+      <div className="max-h-120 overflow-hidden border-y border-slate-200 dark:border-slate-700">
         <button
           onClick={handleOpen}
           type="button"

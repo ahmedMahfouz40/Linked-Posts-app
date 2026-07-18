@@ -17,8 +17,8 @@ import useGet from "../../CustomHooks/useGetPosts";
 import PostCard from "../../Components/Posts/PostCard";
 import LoadingSkeleton from "../../Components/LoadingSkeleton/LoadingSkeleton";
 import useToggleFollow from "../../CustomHooks/useToggleFollow";
-import AuthContext from "../../AuthContext/authContext";
 import ShowImage from "../../utils/ShowImage";
+import AuthContext from "../../Contexts/AuthContext/authContext";
 
 const UserProfile = () => {
   const navigate = useNavigate();
@@ -85,28 +85,28 @@ const UserProfile = () => {
       <div className="min-w-0">
         <button
           onClick={handleBack}
-          className="inline-flex m-5 cursor-pointer items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-bold text-slate-700 transition hover:bg-slate-50"
+          className="inline-flex m-5 cursor-pointer items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-bold text-slate-700 transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
         >
           <FontAwesomeIcon icon={faArrowLeft} />
           Back
         </button>
 
-        <section className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+        <section className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900">
           <div className="h-48 bg-[linear-gradient(112deg,#0f172a_0%,#1e3a5f_36%,#2b5178_72%,#5f8fb8_100%)]" />
           <div className="relative -mt-14 px-3 pb-5 sm:px-5">
-            <div className="flex flex-wrap items-end justify-between gap-4 rounded-2xl border border-white/70 bg-white/95 p-4">
+            <div className="flex flex-wrap items-end justify-between gap-4 rounded-2xl border border-white/70 bg-white/95 p-4 dark:border-slate-700/70 dark:bg-slate-900/95">
               <div className="flex items-end gap-3">
                 <img
                   onClick={handleShowImage}
                   alt={UserInfo?.name}
-                  className="h-28 w-28 cursor-pointer rounded-full border-4 border-white object-cover shadow-md ring-2 ring-blue-100"
+                  className="h-28 w-28 cursor-pointer rounded-full border-4 border-white object-cover shadow-md ring-2 ring-blue-100 dark:border-slate-900 dark:ring-blue-900/40"
                   src={UserInfo?.photo}
                 />
                 <div>
-                  <p className="text-xl font-black text-slate-900 sm:text-2xl">
+                  <p className="text-xl font-black text-slate-900 sm:text-2xl dark:text-white">
                     {UserInfo?.name}
                   </p>
-                  <p className="text-sm font-semibold text-slate-500 sm:text-base">
+                  <p className="text-sm font-semibold text-slate-500 sm:text-base dark:text-slate-400">
                     {UserInfo?.email ?? "loading_email@example.com"}
                   </p>
                 </div>
@@ -120,8 +120,8 @@ const UserProfile = () => {
                   ${isPending ? "cursor-not-allowed opacity-60" : "cursor-pointer"}
                   ${
                     isFollowing
-                      ? "border border-slate-300 bg-white text-slate-700 hover:bg-slate-100"
-                      : "bg-[#1877f2] text-white hover:bg-[#166fe5]"
+                      ? "border border-slate-300 bg-white text-slate-700 hover:bg-slate-100 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
+                      : "bg-[#1877f2] text-white hover:bg-[#166fe5] dark:bg-[#3454c7] dark:hover:bg-[#2843a8]"
                   }`}
               >
                 {isPending ? (
@@ -144,7 +144,7 @@ const UserProfile = () => {
           {isPosting ? (
             <LoadingSkeleton />
           ) : !posts?.length ? (
-            <p className="text-center text-gray-400 mt-10">No posts yet.</p>
+            <p className="text-center text-gray-400 mt-10 dark:text-slate-500">No posts yet.</p>
           ) : (
             posts.map((post) => <PostCard post={post} key={post._id} />)
           )}

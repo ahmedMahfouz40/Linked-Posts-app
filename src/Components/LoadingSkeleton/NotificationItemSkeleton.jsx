@@ -6,11 +6,11 @@ const NotificationItemSkeleton = () => {
   return (
     <>
     <div className="my-5">
-      <article className="group relative flex gap-3 rounded-xl border p-3 sm:rounded-2xl sm:p-4 border-[#dbeafe] bg-[#edf4ff] animate-pulse">
+      <article className="group relative flex gap-3 rounded-xl border p-3 sm:rounded-2xl sm:p-4 border-[#dbeafe] dark:border-slate-700 bg-[#edf4ff] dark:bg-gray-800 animate-pulse">
         {/* Avatar */}
         <div className="relative shrink-0">
           <Skeleton circle={true} height={44} width={44} />
-          <span className="absolute -bottom-1 -right-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-white ring-2 ring-white">
+          <span className="absolute -bottom-1 -right-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-white dark:bg-gray-900 ring-2 ring-white dark:ring-gray-900">
             <Skeleton circle={true} height={20} width={20} />
           </span>
         </div>
@@ -18,7 +18,7 @@ const NotificationItemSkeleton = () => {
         {/* Text content */}
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-start justify-between gap-1.5 sm:gap-2">
-            <p className="text-sm leading-6 text-slate-800 flex flex-wrap gap-1">
+            <p className="text-sm leading-6 text-slate-800 dark:text-slate-100 flex flex-wrap gap-1">
               <Skeleton width={80} height={16} /> {/* Actor Name */}
               <Skeleton width={120} height={16} /> {/* Notification text */}
             </p>
@@ -29,7 +29,7 @@ const NotificationItemSkeleton = () => {
             </div>
           </div>
 
-          <p className="mt-0.5 text-sm text-slate-600">
+          <p className="mt-0.5 text-sm text-slate-600 dark:text-slate-400">
             <Skeleton width="90%" height={14} />
           </p>
 
@@ -39,12 +39,13 @@ const NotificationItemSkeleton = () => {
         </div>
       </article>
     </div>
+
     <div className="my-5">
-      <article className="group relative flex gap-3 rounded-xl border p-3 sm:rounded-2xl sm:p-4 border-[#dbeafe] bg-[#edf4ff] animate-pulse">
+      <article className="group relative flex gap-3 rounded-xl border p-3 sm:rounded-2xl sm:p-4 border-[#dbeafe] dark:border-slate-700 bg-[#edf4ff] dark:bg-gray-800 animate-pulse">
         {/* Avatar */}
         <div className="relative shrink-0">
           <Skeleton circle={true} height={44} width={44} />
-          <span className="absolute -bottom-1 -right-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-white ring-2 ring-white">
+          <span className="absolute -bottom-1 -right-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-white dark:bg-gray-900 ring-2 ring-white dark:ring-gray-900">
             <Skeleton circle={true} height={20} width={20} />
           </span>
         </div>
@@ -52,7 +53,7 @@ const NotificationItemSkeleton = () => {
         {/* Text content */}
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-start justify-between gap-1.5 sm:gap-2">
-            <p className="text-sm leading-6 text-slate-800 flex flex-wrap gap-1">
+            <p className="text-sm leading-6 text-slate-800 dark:text-slate-100 flex flex-wrap gap-1">
               <Skeleton width={80} height={16} /> {/* Actor Name */}
               <Skeleton width={120} height={16} /> {/* Notification text */}
             </p>
@@ -63,7 +64,7 @@ const NotificationItemSkeleton = () => {
             </div>
           </div>
 
-          <p className="mt-0.5 text-sm text-slate-600">
+          <p className="mt-0.5 text-sm text-slate-600 dark:text-slate-400">
             <Skeleton width="90%" height={14} />
           </p>
 
@@ -73,12 +74,13 @@ const NotificationItemSkeleton = () => {
         </div>
       </article>
     </div>
+
     <div className="my-5">
-      <article className="group relative flex gap-3 rounded-xl border p-3 sm:rounded-2xl sm:p-4 border-[#dbeafe] bg-[#edf4ff] animate-pulse">
+      <article className="group relative flex gap-3 rounded-xl border p-3 sm:rounded-2xl sm:p-4 border-[#dbeafe] dark:border-slate-700 bg-[#edf4ff] dark:bg-gray-800 animate-pulse">
         {/* Avatar */}
         <div className="relative shrink-0">
           <Skeleton circle={true} height={44} width={44} />
-          <span className="absolute -bottom-1 -right-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-white ring-2 ring-white">
+          <span className="absolute -bottom-1 -right-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-white dark:bg-gray-900 ring-2 ring-white dark:ring-gray-900">
             <Skeleton circle={true} height={20} width={20} />
           </span>
         </div>
@@ -86,7 +88,7 @@ const NotificationItemSkeleton = () => {
         {/* Text content */}
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-start justify-between gap-1.5 sm:gap-2">
-            <p className="text-sm leading-6 text-slate-800 flex flex-wrap gap-1">
+            <p className="text-sm leading-6 text-slate-800 dark:text-slate-100 flex flex-wrap gap-1">
               <Skeleton width={80} height={16} /> {/* Actor Name */}
               <Skeleton width={120} height={16} /> {/* Notification text */}
             </p>
@@ -97,7 +99,7 @@ const NotificationItemSkeleton = () => {
             </div>
           </div>
 
-          <p className="mt-0.5 text-sm text-slate-600">
+          <p className="mt-0.5 text-sm text-slate-600 dark:text-slate-400">
             <Skeleton width="90%" height={14} />
           </p>
 

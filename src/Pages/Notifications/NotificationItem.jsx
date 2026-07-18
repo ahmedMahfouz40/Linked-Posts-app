@@ -45,8 +45,8 @@ const NotificationItem = ({ notification, markAsReadFn, pendingId }) => {
   return (
     <div
       onClick={handleCardClick}
-      className={`group my-5 relative flex gap-3 rounded-xl border p-3 transition sm:rounded-2xl sm:p-4 border-[#dbeafe] ${
-        notification.isRead ? "bg-white" : "bg-[#edf4ff]"
+      className={`group my-5 relative flex gap-3 rounded-xl border p-3 transition sm:rounded-2xl sm:p-4 border-[#dbeafe] dark:border-[#1e3a63] ${
+        notification.isRead ? "bg-white dark:bg-slate-900" : "bg-[#edf4ff] dark:bg-[#122845]"
       }`}
     >
       {/* Actor photo + type icon */}
@@ -62,7 +62,7 @@ const NotificationItem = ({ notification, markAsReadFn, pendingId }) => {
             className="h-11 w-11 rounded-full object-cover"
           />
         </Link>
-        <span className="absolute -bottom-1 -right-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-white ring-2 ring-white text-[#1877f2]">
+        <span className="absolute -bottom-1 -right-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-white ring-2 ring-white text-[#1877f2] dark:bg-slate-800 dark:ring-slate-800 dark:text-[#63b3ff]">
           <FontAwesomeIcon icon={getIcon(notification?.type)} />
         </span>
       </div>
@@ -70,7 +70,7 @@ const NotificationItem = ({ notification, markAsReadFn, pendingId }) => {
       {/* Content */}
       <div className="flex justify-between w-full items-center">
         <div className="min-w-0 flex-1">
-          <p className="text-sm leading-6 text-slate-800">
+          <p className="text-sm leading-6 text-slate-800 dark:text-slate-200">
             <Link
               to={`/profile/${actorId}`}
               className="hover:underline"
@@ -81,7 +81,7 @@ const NotificationItem = ({ notification, markAsReadFn, pendingId }) => {
             {getActionText(notification?.type)}
           </p>
 
-          <p className="mt-0.5 text-sm text-slate-600">
+          <p className="mt-0.5 text-sm text-slate-600 dark:text-slate-400">
             {notification?.entity?.body}
           </p>
 
@@ -89,7 +89,7 @@ const NotificationItem = ({ notification, markAsReadFn, pendingId }) => {
             <button
               disabled={isPending || notification.isRead}
               onClick={handleMarkAsRead}
-              className="inline-flex items-center gap-1.5 rounded-md bg-white px-2.5 py-1 text-xs font-bold text-[#1877f2] ring-1 ring-[#dbeafe] transition hover:bg-[#e7f3ff] disabled:cursor-not-allowed disabled:opacity-60"
+              className="inline-flex items-center gap-1.5 rounded-md bg-white px-2.5 py-1 text-xs font-bold text-[#1877f2] ring-1 ring-[#dbeafe] transition hover:bg-[#e7f3ff] disabled:cursor-not-allowed disabled:opacity-60 dark:bg-slate-800 dark:text-[#63b3ff] dark:ring-[#1e3a63] dark:hover:bg-slate-700"
             >
               <FontAwesomeIcon icon={faCheck} />
               {notification.isRead ? "Read" : "Mark as read"}
@@ -98,11 +98,11 @@ const NotificationItem = ({ notification, markAsReadFn, pendingId }) => {
         </div>
 
         <div className="flex items-center gap-1.5 sm:gap-2">
-          <span className="text-xs font-semibold text-slate-500">
+          <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">
             {timeAgoShort(notification?.createdAt)}
           </span>
           {!notification.isRead && (
-            <FontAwesomeIcon icon={faDotCircle} className="text-[#1877f2]" />
+            <FontAwesomeIcon icon={faDotCircle} className="text-[#1877f2] dark:text-[#63b3ff]" />
           )}
         </div>
       </div>

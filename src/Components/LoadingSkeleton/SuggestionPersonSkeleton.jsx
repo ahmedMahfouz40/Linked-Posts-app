@@ -3,7 +3,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 
 const SuggestionPersonSkeleton = () => {
   return (
-    <div className="rounded-xl border border-slate-200 p-2">
+    <div className="rounded-xl border border-slate-200 dark:border-slate-700 dark:bg-gray-900 p-2">
       <div className="flex items-center justify-between gap-2">
         <div className="flex min-w-0 items-center gap-2 px-1 py-1">
           

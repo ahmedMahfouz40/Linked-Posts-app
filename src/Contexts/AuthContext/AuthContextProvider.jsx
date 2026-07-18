@@ -1,14 +1,27 @@
 import React, { useState } from "react";
-import useGet from "../CustomHooks/useGetPosts";
-import Loading from "../Pages/Loading/Loading";
-import AuthContext from "./authContext";
+import useGet from "../../CustomHooks/useGetPosts";
+import Loading from "../../Pages/Loading/Loading";
 import { Navigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
-
+import { jwtDecode } from "jwt-decode";
+import AuthContext from "./authContext";
 const AuthContextProvider = ({ children }) => {
-  const [token, setToken] = useState(
-    () => localStorage.getItem("token") || null,
-  );
+  const [token, setToken] = useState(() => {
+    const storedToken = localStorage.getItem("token");
+    if (!storedToken) return null;
+    try {
+      const decoded = jwtDecode(storedToken);
+      const isExpired = decoded.exp * 1000 < Date.now();
+      if (isExpired) {
+        localStorage.removeItem("token");
+        return null;
+      }
+      return storedToken;
+    } catch {
+      localStorage.removeItem("token");
+      return null;
+    }
+  });
   const queryClient = useQueryClient();
 
   const { data, isLoading } = useGet(
@@ -18,6 +31,7 @@ const AuthContextProvider = ({ children }) => {
     { retry: false },
   );
   const profileData = data?.data.data.user;
+  
   const showLoading = !!token && isLoading;
   const { data: unred } = useGet(
     ["unred"],

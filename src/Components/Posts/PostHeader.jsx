@@ -12,9 +12,9 @@ import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import axios from "axios";
-import AuthContext from "../../AuthContext/authContext";
 import headerObject from "../../utils/headerObject";
 import timeAgoShort from "../../utils/timeAgo";
+import AuthContext from "../../Contexts/AuthContext/authContext";
 
 function updatePost(postId, values) {
   const formData = new FormData();
@@ -83,7 +83,7 @@ const PostHeader = ({ post }) => {
   });
 
   return (
-    <div className="postHeader rounded-t-2xl border border-slate-200 bg-white shadow-sm">
+    <div className="postHeader rounded-t-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900">
       <div className="p-4">
         <div className="flex items-center gap-3">
           <Link to={`/profile/${post?.user._id}`}>
@@ -95,15 +95,15 @@ const PostHeader = ({ post }) => {
           </Link>
           <div className="min-w-0 flex-1">
             <Link
-              className="font-extrabold text-foreground hover:underline text-sm"
+              className="font-extrabold text-foreground hover:underline text-sm dark:text-white"
               to={`/profile/${post?.user._id}`}
             >
               {name}
             </Link>
-            <div className="flex flex-wrap items-center gap-1 text-xs text-muted-foreground">
+            <div className="flex flex-wrap items-center gap-1 text-xs text-muted-foreground dark:text-slate-400">
               <button
                 type="button"
-                className="rounded px-0.5 py-0.5 text-xs font-semibold text-slate-500 transition hover:bg-slate-100 hover:text-slate-700 hover:underline"
+                className="rounded px-0.5 py-0.5 text-xs font-semibold text-slate-500 transition hover:bg-slate-100 hover:text-slate-700 hover:underline dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-200"
               >
                 {timeAgoShort(postDate)}
               </button>
@@ -118,16 +118,16 @@ const PostHeader = ({ post }) => {
           <div ref={menuRef} className="relative z-50">
             <button
               onClick={() => setShowListPost((prev) => !prev)}
-              className="rounded-full p-1.5 text-slate-500 hover:bg-slate-100 hover:text-slate-700"
+              className="rounded-full p-1.5 text-slate-500 hover:bg-slate-100 hover:text-slate-700 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-200"
             >
               <FontAwesomeIcon icon={faEllipsis} />
             </button>
             <div
-              className={`absolute ${!showListPost && "hidden"} right-5 z-20 mt-2 w-44 overflow-hidden rounded-xl border border-slate-200 bg-white py-1 shadow-lg`}
+              className={`absolute ${!showListPost && "hidden"} right-5 z-20 mt-2 w-44 overflow-hidden rounded-xl border border-slate-200 bg-white py-1 shadow-lg dark:border-slate-700 dark:bg-slate-800 dark:shadow-slate-950/40`}
             >
               <button
                 onClick={bookmarkFn}
-                className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm font-semibold text-slate-700 hover:bg-slate-50"
+                className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm font-semibold text-slate-700 hover:bg-slate-50 dark:text-slate-200 dark:hover:bg-slate-700"
               >
                 {isBookmarkPending ? (
                   post.bookmarked ? (
@@ -150,14 +150,14 @@ const PostHeader = ({ post }) => {
                       setShowListPost(false);
                       setValue("body", postText);
                     }}
-                    className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm font-semibold text-slate-700 hover:bg-slate-50"
+                    className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm font-semibold text-slate-700 hover:bg-slate-50 dark:text-slate-200 dark:hover:bg-slate-700"
                   >
                     <FontAwesomeIcon icon={faPencil} />
                     Edit post
                   </button>
                   <label
                     htmlFor={modalId}
-                    className="flex w-full cursor-pointer items-center gap-2 px-3 py-2 text-left text-sm font-semibold text-rose-600 hover:bg-rose-50"
+                    className="flex w-full cursor-pointer items-center gap-2 px-3 py-2 text-left text-sm font-semibold text-rose-600 hover:bg-rose-50 dark:text-rose-400 dark:hover:bg-rose-500/10"
                   >
                     <FontAwesomeIcon icon={faTrash} />
                     Delete post
@@ -170,7 +170,7 @@ const PostHeader = ({ post }) => {
 
         <div className="mt-3">
           {!updatePostForm ? (
-            <p className="whitespace-pre-wrap text-sm leading-relaxed text-foreground">
+            <p className="whitespace-pre-wrap text-sm leading-relaxed text-foreground dark:text-slate-200">
               {postText}
             </p>
           ) : (
@@ -179,7 +179,7 @@ const PostHeader = ({ post }) => {
                 <textarea
                   {...register("body")}
                   rows="4"
-                  className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-[17px] leading-relaxed text-slate-800 outline-none transition focus:border-[#1877f2] focus:bg-white"
+                  className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-[17px] leading-relaxed text-slate-800 outline-none transition focus:border-[#1877f2] focus:bg-white dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:focus:bg-slate-900"
                 />
                 <div className="flex justify-end gap-4">
                   <button

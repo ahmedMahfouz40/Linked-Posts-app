@@ -41,7 +41,7 @@ const PostCard = ({ post, isDetails }) => {
     <>
       <DeleteModal modalId={modalId} onConfirm={handleDelete} />
 
-      <div className="bg-white shadow-xl rounded-2xl my-5">
+      <div className="bg-white shadow-xl rounded-2xl my-5 dark:bg-slate-900">
         <PostHeader post={post} />
         {post?.isShare && <PostShared post={post} />}
         <PostImage postImage={postImage} />

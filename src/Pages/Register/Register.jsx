@@ -50,8 +50,6 @@ const Register = () => {
   const { mutate: signupMutate, isPending } = useMutation({
     mutationFn: signup,
     onSuccess: (res) => {
-      console.log(res);
-      console.log(res.data?.message);
       toast.success(res.data?.message);
       navigate("/auth/login");
     },
@@ -68,21 +66,21 @@ const Register = () => {
         <title>Create Account | Route Posts </title>
       </Helmet>
       <section className="  w-full max-w-107.5 lg:order-2 mx-auto">
-        <div className="rounded-2xl bg-white p-4 sm:p-6">
+        <div className="rounded-2xl bg-white p-4 sm:p-6 dark:bg-slate-900">
           {/* header that is hidden before Lg size */}
           <div className="mb-4 text-center lg:hidden">
-            <h1 className="text-3xl font-extrabold tracking-tight text-[#00298d]">
+            <h1 className="text-3xl font-extrabold tracking-tight text-[#00298d] dark:text-[#8fa8ff]">
               Route Posts
             </h1>
-            <p className="mt-1 text-base font-medium leading-snug text-slate-700">
+            <p className="mt-1 text-base font-medium leading-snug text-slate-700 dark:text-slate-300">
               Connect with friends and the world around you on Route Posts.
             </p>
           </div>
           {/* buttons to toggel about register and login components */}
-          <div className="mb-5 grid grid-cols-2 rounded-xl bg-slate-100 p-1">
+          <div className="mb-5 grid grid-cols-2 rounded-xl bg-slate-100 p-1 dark:bg-slate-800">
             <button
               type="button"
-              className="rounded-lg py-2 text-sm font-extrabold transition text-slate-600 hover:text-slate-800"
+              className="rounded-lg py-2 text-sm font-extrabold transition text-slate-600 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200"
             >
               <Link className="block " to={"/auth/login"}>
                 Login
@@ -90,17 +88,19 @@ const Register = () => {
             </button>
             <button
               type="button"
-              className="rounded-lg py-2 text-sm font-extrabold transition bg-white text-[#00298d] shadow-sm"
+              className="rounded-lg py-2 text-sm font-extrabold transition bg-white text-[#00298d] shadow-sm dark:bg-slate-700 dark:text-[#8fa8ff]"
             >
               <Link className="block " to={"/auth/register"}>
                 Register
               </Link>
             </button>
           </div>
-          <h2 className="text-2xl font-extrabold text-slate-900">
+          <h2 className="text-2xl font-extrabold text-slate-900 dark:text-white">
             Create a new account
           </h2>
-          <p className="mt-1 text-sm text-slate-500">It is quick and easy.</p>
+          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+            It is quick and easy.
+          </p>
           {/* form  */}
           <form
             onSubmit={handleSubmit(signupMutate)}
@@ -108,31 +108,31 @@ const Register = () => {
           >
             {/* Full Name */}
             <div className="relative">
-              <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
+              <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500">
                 <FontAwesomeIcon icon={faUser} />
               </span>
               <input
                 {...register("name")}
                 placeholder="Full name"
-                className="w-full rounded-xl border bg-slate-50 py-3 pl-11 pr-4 text-sm text-slate-800 outline-none transition focus:bg-white border-slate-200 focus:border-[#00298d]"
+                className="w-full rounded-xl border bg-slate-50 py-3 pl-11 pr-4 text-sm text-slate-800 outline-none transition focus:bg-white border-slate-200 focus:border-[#00298d] dark:bg-slate-800 dark:text-slate-100 dark:border-slate-700 dark:focus:bg-slate-900 dark:focus:border-[#8fa8ff]"
                 type="text"
                 name="name"
               ></input>
             </div>
             {errors?.name && (
-              <p className="text-red-500 text-[13px]">
+              <p className="text-red-500 text-[13px] dark:text-red-400">
                 *{errors.name?.message}
               </p>
             )}
             {/* User Name */}
             <div className="relative">
-              <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
+              <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500">
                 <FontAwesomeIcon icon={faAt} />
               </span>
               <input
                 {...register("username")}
                 placeholder="Username"
-                className="w-full rounded-xl border bg-slate-50 py-3 pl-11 pr-4 text-sm text-slate-800 outline-none transition focus:bg-white border-slate-200 focus:border-[#00298d]"
+                className="w-full rounded-xl border bg-slate-50 py-3 pl-11 pr-4 text-sm text-slate-800 outline-none transition focus:bg-white border-slate-200 focus:border-[#00298d] dark:bg-slate-800 dark:text-slate-100 dark:border-slate-700 dark:focus:bg-slate-900 dark:focus:border-[#8fa8ff]"
                 type="text"
                 name="username"
               ></input>
@@ -140,19 +140,19 @@ const Register = () => {
 
             {/* Email Address */}
             <div className="relative">
-              <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
+              <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500">
                 <FontAwesomeIcon icon={faAt} />
               </span>
               <input
                 {...register("email")}
                 placeholder="Email address"
-                className="w-full rounded-xl border bg-slate-50 py-3 pl-11 pr-4 text-sm text-slate-800 outline-none transition focus:bg-white border-slate-200 focus:border-[#00298d]"
+                className="w-full rounded-xl border bg-slate-50 py-3 pl-11 pr-4 text-sm text-slate-800 outline-none transition focus:bg-white border-slate-200 focus:border-[#00298d] dark:bg-slate-800 dark:text-slate-100 dark:border-slate-700 dark:focus:bg-slate-900 dark:focus:border-[#8fa8ff]"
                 type="email"
                 name="email"
               ></input>
             </div>
             {errors?.email && (
-              <p className="text-red-500 text-[13px]">
+              <p className="text-red-500 text-[13px] dark:text-red-400">
                 *{errors.email?.message}
               </p>
             )}
@@ -161,12 +161,12 @@ const Register = () => {
             <div className="relative">
               <FontAwesomeIcon
                 icon={faUserGroup}
-                className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+                className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500"
               />
               <select
                 {...register("gender")}
                 name="gender"
-                className="w-full rounded-xl border bg-slate-50 py-3 pl-11 pr-4 text-sm text-slate-800 outline-none transition focus:bg-white border-slate-200 focus:border-[#00298d]"
+                className="w-full rounded-xl border bg-slate-50 py-3 pl-11 pr-4 text-sm text-slate-800 outline-none transition focus:bg-white border-slate-200 focus:border-[#00298d] dark:bg-slate-800 dark:text-slate-100 dark:border-slate-700 dark:focus:bg-slate-900 dark:focus:border-[#8fa8ff]"
               >
                 <option value="">Select gender</option>
                 <option value="male">Male</option>
@@ -174,20 +174,20 @@ const Register = () => {
               </select>
             </div>
             {errors?.gender && (
-              <p className="text-red-500 text-[13px]">
+              <p className="text-red-500 text-[13px] dark:text-red-400">
                 *{errors.gender?.message}
               </p>
             )}
             {/* Date Of Birth */}
             <div className="relative">
-              <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
+              <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500">
                 <FontAwesomeIcon icon={faCalendar} />
               </span>
 
               {/* dateOfBirth */}
               <label
                 htmlFor="dateOfBirth"
-                className=" sm:hidden font-semibold text-sm text-gray-600"
+                className=" sm:hidden font-semibold text-sm text-gray-600 dark:text-slate-400"
               >
                 Date Of Birth
               </label>
@@ -200,20 +200,20 @@ const Register = () => {
               />
             </div>
             {errors?.dateOfBirth && (
-              <p className="text-red-500 text-[13px]">
+              <p className="text-red-500 text-[13px] dark:text-red-400">
                 *{errors.dateOfBirth?.message}
               </p>
             )}
             {/* Password */}
             <div className="relative">
-              <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
+              <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500">
                 <FontAwesomeIcon icon={faKey} />
               </span>
               <input
                 {...register("password")}
                 placeholder="Password"
                 autoComplete="off"
-                className="w-full rounded-xl border bg-slate-50 py-3 pl-11 pr-4 text-sm text-slate-800 outline-none transition focus:bg-white border-slate-200 focus:border-[#00298d]"
+                className="w-full rounded-xl border bg-slate-50 py-3 pl-11 pr-4 text-sm text-slate-800 outline-none transition focus:bg-white border-slate-200 focus:border-[#00298d] dark:bg-slate-800 dark:text-slate-100 dark:border-slate-700 dark:focus:bg-slate-900 dark:focus:border-[#8fa8ff]"
                 type={showPasswrod === "password" ? "text" : "password"}
                 name="password"
               ></input>
@@ -226,7 +226,7 @@ const Register = () => {
                     }
                   })
                 }
-                className="cursor-pointer absolute right-3 top-1/2 -translate-y-1/2 text-slate-400"
+                className="cursor-pointer absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500"
               >
                 <FontAwesomeIcon
                   icon={showPasswrod === "password" ? faEyeSlash : faEye}
@@ -234,20 +234,20 @@ const Register = () => {
               </span>
             </div>
             {errors?.password && (
-              <p className="text-red-500 text-[13px]">
+              <p className="text-red-500 text-[13px] dark:text-red-400">
                 *{errors.password?.message}
               </p>
             )}
             {/* RePassword */}
             <div className="relative">
-              <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
+              <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500">
                 <FontAwesomeIcon icon={faKey} />
               </span>
               <input
                 {...register("rePassword")}
                 placeholder="Confirm password"
                 autoComplete="off"
-                className="w-full rounded-xl border bg-slate-50 py-3 pl-11 pr-4 text-sm text-slate-800 outline-none transition focus:bg-white border-slate-200 focus:border-[#00298d]"
+                className="w-full rounded-xl border bg-slate-50 py-3 pl-11 pr-4 text-sm text-slate-800 outline-none transition focus:bg-white border-slate-200 focus:border-[#00298d] dark:bg-slate-800 dark:text-slate-100 dark:border-slate-700 dark:focus:bg-slate-900 dark:focus:border-[#8fa8ff]"
                 type={showPasswrod === "rePassword" ? "text" : "password"}
                 name="rePassword"
               ></input>
@@ -260,7 +260,7 @@ const Register = () => {
                     }
                   })
                 }
-                className="cursor-pointer absolute right-3 top-1/2 -translate-y-1/2 text-slate-400"
+                className="cursor-pointer absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500"
               >
                 <FontAwesomeIcon
                   icon={showPasswrod === "rePassword" ? faEyeSlash : faEye}
@@ -268,14 +268,14 @@ const Register = () => {
               </span>
             </div>
             {errors?.rePassword && (
-              <p className="text-red-500 text-[13px]">
+              <p className="text-red-500 text-[13px] dark:text-red-400">
                 *{errors.rePassword?.message}
               </p>
             )}
             {/* Button */}
             <button
               disabled={isPending}
-              className={`w-full rounded-xl py-3 text-base font-extrabold text-white transition disabled:opacity-60 disabled:cursor-not-allowed  bg-[#00298d] hover:bg-[#001f6b]`}
+              className={`w-full rounded-xl py-3 text-base font-extrabold text-white transition disabled:opacity-60 disabled:cursor-not-allowed  bg-[#00298d] hover:bg-[#001f6b] dark:bg-[#3454c7] dark:hover:bg-[#2843a8]`}
             >
               Create New Account
             </button>

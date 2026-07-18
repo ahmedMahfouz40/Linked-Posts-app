@@ -2,9 +2,9 @@ import React from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
-const LoadingSkeleton  = () => {
+const LoadingSkeleton = () => {
   return (
-    <div className="bg-white shadow-xl rounded my-5 animate-pulse">
+    <div className="bg-white dark:bg-gray-900 shadow-xl rounded my-5 animate-pulse">
       {/* Header */}
       <div className="p-4 flex items-center gap-3">
         <Skeleton circle width={44} height={44} />
@@ -21,7 +21,7 @@ const LoadingSkeleton  = () => {
       </div>
 
       {/* Image */}
-      <div className="max-h-155 overflow-hidden border-y border-slate-200">
+      <div className="max-h-155 overflow-hidden border-y border-slate-200 dark:border-slate-700">
         <Skeleton height={200} />
       </div>
 
@@ -39,4 +39,4 @@ const LoadingSkeleton  = () => {
   );
 };
 
-export default LoadingSkeleton  ;
+export default LoadingSkeleton;

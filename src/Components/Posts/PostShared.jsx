@@ -9,7 +9,7 @@ const PostShared = ({ post }) => {
   
   if (!post) return null;
   return (
-    <div className="mx-4 my-3 overflow-hidden rounded-xl border border-slate-200 bg-slate-50">
+    <div className="mx-4 my-3 overflow-hidden rounded-xl border border-slate-200 bg-slate-50 dark:border-slate-700 dark:bg-slate-800">
       <div className="p-3">
         <div className="mb-2 flex items-center gap-2">
           {user?.photo && (
@@ -20,20 +20,20 @@ const PostShared = ({ post }) => {
             />
           )}
           <div className="min-w-0">
-            <p className="truncate text-sm font-bold text-slate-900">
+            <p className="truncate text-sm font-bold text-slate-900 dark:text-white">
               {user?.name}
             </p>
-            <p className="truncate text-xs text-slate-500">@{user?.username}</p>
+            <p className="truncate text-xs text-slate-500 dark:text-slate-400">@{user?.username}</p>
           </div>
           <Link
             to={`/postDetails/${id}`}
-            className="ml-auto inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs font-bold text-[#1877f2] hover:bg-[#e7f3ff]"
+            className="ml-auto inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs font-bold text-[#1877f2] hover:bg-[#e7f3ff] dark:text-[#63b3ff] dark:hover:bg-slate-700"
           >
             Original Post
             <FontAwesomeIcon icon={faExternalLink} />
           </Link>
         </div>
-        <p className="whitespace-pre-wrap text-sm leading-relaxed text-slate-800">
+        <p className="whitespace-pre-wrap text-sm leading-relaxed text-slate-800 dark:text-slate-200">
           {body}
         </p>
       </div>

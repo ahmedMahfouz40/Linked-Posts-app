@@ -97,15 +97,15 @@ const PostReactions = ({ post, isDetails, setClickComment }) => {
   return (
     <div className="pb-2">
       {/* Stats Section */}
-      <div className="px-4 pb-2 pt-3 text-sm text-slate-500">
+      <div className="px-4 pb-2 pt-3 text-sm text-slate-500 dark:text-slate-400">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div className="flex items-center gap-2">
-            <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-[#1877f2] text-white">
+            <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-[#1877f2] text-white dark:bg-[#3454c7]">
               <FontAwesomeIcon icon={faThumbsUp} size="xs" />
             </span>
             <button
               onClick={handleToggleLikes}
-              className="font-semibold transition cursor-pointer hover:text-[#1877f2] hover:underline"
+              className="font-semibold transition cursor-pointer hover:text-[#1877f2] hover:underline dark:hover:text-[#63b3ff]"
             >
               {post?.likesCount} likes
             </button>
@@ -117,7 +117,7 @@ const PostReactions = ({ post, isDetails, setClickComment }) => {
             {!isDetails && (
               <Link
                 to={`/PostDetails/${post._id}`}
-                className="rounded-md px-2 py-1 text-xs font-bold text-[#1877f2] hover:bg-[#e7f3ff]"
+                className="rounded-md px-2 py-1 text-xs font-bold text-[#1877f2] hover:bg-[#e7f3ff] dark:text-[#63b3ff] dark:hover:bg-slate-800"
               >
                 View details
               </Link>
@@ -126,16 +126,16 @@ const PostReactions = ({ post, isDetails, setClickComment }) => {
         </div>
       </div>
 
-      <hr className="mx-4 border-slate-200" />
+      <hr className="mx-4 border-slate-200 dark:border-slate-700" />
 
       {/* Likes List */}
       {showLikes && (
         <div className="mx-4 my-2">
           {likes.length === 0 ? (
-            <p className="text-xs text-slate-400">No likes yet.</p>
+            <p className="text-xs text-slate-400 dark:text-slate-500">No likes yet.</p>
           ) : (
             <>
-              <p className="text-xs font-semibold uppercase tracking-wide text-slate-400 mb-2">
+              <p className="text-xs font-semibold uppercase tracking-wide text-slate-400 mb-2 dark:text-slate-500">
                 {likes.length} likes
               </p>
               <div className="flex flex-col gap-1.5">
@@ -143,7 +143,7 @@ const PostReactions = ({ post, isDetails, setClickComment }) => {
                   <Link
                     key={like._id}
                     to={`/profile/${like._id}`}
-                    className="flex items-center gap-2.5 rounded-lg border border-slate-100 bg-white px-2.5 py-2 transition hover:bg-slate-50"
+                    className="flex items-center gap-2.5 rounded-lg border border-slate-100 bg-white px-2.5 py-2 transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:hover:bg-slate-700"
                   >
                     {like.photo ? (
                       <img
@@ -152,17 +152,17 @@ const PostReactions = ({ post, isDetails, setClickComment }) => {
                         className="h-9 w-9 rounded-full object-cover shrink-0"
                       />
                     ) : (
-                      <div className="h-9 w-9 rounded-full bg-blue-100 flex items-center justify-center shrink-0">
-                        <span className="text-xs font-semibold text-blue-800">
+                      <div className="h-9 w-9 rounded-full bg-blue-100 flex items-center justify-center shrink-0 dark:bg-blue-950/40">
+                        <span className="text-xs font-semibold text-blue-800 dark:text-blue-300">
                           {like.name?.charAt(0).toUpperCase()}
                         </span>
                       </div>
                     )}
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-semibold text-slate-900 truncate">
+                      <p className="text-sm font-semibold text-slate-900 truncate dark:text-slate-100">
                         {like.name}
                       </p>
-                      <p className="text-xs text-slate-500">@{like.username}</p>
+                      <p className="text-xs text-slate-500 dark:text-slate-400">@{like.username}</p>
                     </div>
                   </Link>
                 ))}
@@ -178,14 +178,14 @@ const PostReactions = ({ post, isDetails, setClickComment }) => {
           disabled={isPending}
           onClick={handleLike}
           className={`disabled:cursor-not-allowed flex cursor-pointer items-center justify-center gap-2 rounded-md p-2 text-xs font-semibold transition-colors sm:text-sm
-            ${isLikedByUser ? "bg-blue-100 text-blue-600" : "text-slate-600 hover:bg-slate-100"}`}
+            ${isLikedByUser ? "bg-blue-100 text-blue-600 dark:bg-blue-950/40 dark:text-blue-300" : "text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800"}`}
         >
           <FontAwesomeIcon icon={faThumbsUp} />
           <span>{isPending ? "Liking..." : "Like"}</span>
         </button>
         <button
           onClick={handleToggleComment}
-          className="flex cursor-pointer items-center justify-center gap-2 rounded-md p-2 text-xs font-semibold text-slate-600 transition-colors hover:bg-slate-100 sm:text-sm"
+          className="flex cursor-pointer items-center justify-center gap-2 rounded-md p-2 text-xs font-semibold text-slate-600 transition-colors hover:bg-slate-100 sm:text-sm dark:text-slate-400 dark:hover:bg-slate-800"
         >
           <FontAwesomeIcon icon={faComment} />
           <span>Comment</span>
@@ -198,7 +198,7 @@ const PostReactions = ({ post, isDetails, setClickComment }) => {
             setIsShareOpen((prev) => !prev);
             if (!isShareOpen) setShareBody("");
           }}
-          className="disabled:cursor-not-allowed flex cursor-pointer items-center justify-center gap-2 rounded-md p-2 text-xs font-semibold text-slate-600 transition-colors hover:bg-slate-100 sm:text-sm"
+          className="disabled:cursor-not-allowed flex cursor-pointer items-center justify-center gap-2 rounded-md p-2 text-xs font-semibold text-slate-600 transition-colors hover:bg-slate-100 sm:text-sm dark:text-slate-400 dark:hover:bg-slate-800"
         >
           <FontAwesomeIcon icon={faShareNodes} />
           <span>{isSharing ? "Sharing..." : "Share"}</span>
@@ -206,12 +206,12 @@ const PostReactions = ({ post, isDetails, setClickComment }) => {
       </div>
 
       {isShareOpen && (
-        <div className="mx-4 my-2 p-3 border border-gray-200 rounded-lg bg-white ">
+        <div className="mx-4 my-2 p-3 border border-gray-200 rounded-lg bg-white dark:border-slate-700 dark:bg-slate-800">
           <textarea
             placeholder="Write something (optional)..."
             value={shareBody}
             onChange={(e) => setShareBody(e.target.value)}
-            className="w-full  p-2 rounded text-sm outline-none resize-none"
+            className="w-full  p-2 rounded text-sm outline-none resize-none dark:bg-slate-800 dark:text-slate-100"
           />
 
           <div className="flex justify-end gap-2 mt-2">
@@ -220,7 +220,7 @@ const PostReactions = ({ post, isDetails, setClickComment }) => {
                 setIsShareOpen(false);
                 setShareBody("");
               }}
-              className="px-3 py-1 text-sm  cursor-pointer rounded bg-gray-100 hover:bg-gray-200"
+              className="px-3 py-1 text-sm  cursor-pointer rounded bg-gray-100 hover:bg-gray-200 dark:bg-slate-700 dark:text-slate-200 dark:hover:bg-slate-600"
             >
               Cancel
             </button>
@@ -228,7 +228,7 @@ const PostReactions = ({ post, isDetails, setClickComment }) => {
             <button
               disabled={isSharing}
               onClick={sharePostFn}
-              className="px-3 py-1 text-sm cursor-pointer  rounded bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50"
+              className="px-3 py-1 text-sm cursor-pointer  rounded bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 dark:bg-[#3454c7] dark:hover:bg-[#2843a8]"
             >
               {isSharing ? "Sharing..." : "Share"}
             </button>

@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
 import PostCard from "../Posts/PostCard";
 import LoadingSkeleton from "../LoadingSkeleton/LoadingSkeleton";
-import AuthContext from "../../AuthContext/authContext";
 import useGet from "../../CustomHooks/useGetPosts";
 import NoPosts from "../NoPosts/NoPosts";
+import AuthContext from "../../Contexts/AuthContext/authContext";
 
 const Saved = () => {
   const { profileData } = useContext(AuthContext);
