@@ -95,7 +95,7 @@ const UserProfile = () => {
           <div className="h-48 bg-[linear-gradient(112deg,#0f172a_0%,#1e3a5f_36%,#2b5178_72%,#5f8fb8_100%)]" />
           <div className="relative -mt-14 px-3 pb-5 sm:px-5">
             <div className="flex flex-wrap items-end justify-between gap-4 rounded-2xl border border-white/70 bg-white/95 p-4 dark:border-slate-700/70 dark:bg-slate-900/95">
-              <div className="flex items-end gap-3">
+              <div className="flex items-end flex-wrap gap-3">
                 <img
                   onClick={handleShowImage}
                   alt={UserInfo?.name}
@@ -106,7 +106,7 @@ const UserProfile = () => {
                   <p className="text-xl font-black text-slate-900 sm:text-2xl dark:text-white">
                     {UserInfo?.name}
                   </p>
-                  <p className="text-sm font-semibold text-slate-500 sm:text-base dark:text-slate-400">
+                  <p className="text-sm  font-semibold text-slate-500 sm:text-base dark:text-slate-400">
                     {UserInfo?.email ?? "loading_email@example.com"}
                   </p>
                 </div>

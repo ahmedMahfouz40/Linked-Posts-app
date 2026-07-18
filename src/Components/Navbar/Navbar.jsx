@@ -1,6 +1,6 @@
 import { useCallback, useContext, useState } from "react";
 import Logo from "./../../assets/images/route.png";
-import {Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBars,
@@ -12,7 +12,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import AuthContext from "../../Contexts/AuthContext/authContext";
 import { toggleTheme } from "../../utils/toggleTheme";
-
+import default_user_image from "../../assets/images/defaultUser.webp";
 const Navbar = () => {
   const { unreadCount, logout, profileData } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -82,7 +82,7 @@ const Navbar = () => {
             className="flex items-center gap-2 cursor-pointer rounded-full border border-slate-200 bg-slate-50 px-2 py-1.5 hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-800 dark:hover:bg-slate-700"
           >
             <img
-              src={profileData?.photo}
+              src={profileData?.photo ?? default_user_image}
               className="h-8 w-8 rounded-full object-cover "
               alt={profileData?.name}
             />
@@ -118,10 +118,9 @@ const Navbar = () => {
                 <FontAwesomeIcon icon={faGear} /> Settings
               </Link>
               <button
-                onClick={(e) => {
+                onClick={() => {
                   toggleTheme();
                   setIsDark((prev) => !prev);
-                  e.currentTarget.blur();
                 }}
                 className="p-2 block rounded font-semibold text-gray-700 tracking-wide border-b border-gray-300 dark:text-slate-200 dark:border-slate-600 dark:hover:bg-slate-700"
               >

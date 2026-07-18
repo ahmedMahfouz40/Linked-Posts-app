@@ -38,7 +38,7 @@ const TopComment = ({ comment, clickComment, setClickComment }) => {
 
         <button
           onClick={() => setClickComment(!clickComment)}
-          className="mt-2 text-xs font-bold text-[#1877f2] hover:underline dark:text-[#63b3ff]"
+          className="mt-2 text-xs font-bold cursor-pointer text-[#1877f2] hover:underline dark:text-[#63b3ff]"
         >
           View all comments
         </button>
