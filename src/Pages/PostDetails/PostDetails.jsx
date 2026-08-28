@@ -32,8 +32,8 @@ const PostDetails = () => {
       <Helmet>
         <title>
           {post?.body
-            ? `${pageTitle} | Route Posts`
-            : "Post Details | Route Posts"}
+            ? `${pageTitle} | Lucky Posts`
+            : "Post Details | Lucky Posts"}
         </title>
       </Helmet>
       <div className="bg-[#F0F2F5] dark:bg-slate-950 min-h-screen">

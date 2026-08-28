@@ -12,7 +12,7 @@ const ProfileAbout = ({ email }) => (
       </p>
       <p className="flex items-center gap-2">
         <FontAwesomeIcon icon={faUsers} />
-        Active on Route Posts
+        Active on Lucky Posts
       </p>
     </div>
   </div>

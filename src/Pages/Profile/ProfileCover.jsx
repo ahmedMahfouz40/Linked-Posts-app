@@ -99,7 +99,7 @@ const ProfileCover = () => {
           <img
             onClick={handleOpen}
             src={profileCover}
-            alt="default image"
+            alt="prfile cover"
             className="cursor-pointer w-full"
           />
         ) : (
@@ -112,7 +112,7 @@ const ProfileCover = () => {
           </>
         )}
 
-        <label className="absolute right-10 top-5 z-10 flex cursor-pointer items-center gap-1.5 rounded-lg bg-black/45 px-2 py-1 mt-20 text-[11px] font-bold text-white backdrop-blur transition hover:bg-black/60 sm:px-3 sm:py-1.5 sm:text-xs">
+        <label className="absolute right-0 sm:right-10 top-0 sm:top-5 z-10 flex cursor-pointer items-center gap-1.5 rounded-lg bg-black/45 px-2 py-1 mt-20 text-[11px] font-bold text-white backdrop-blur transition hover:bg-black/60 sm:px-3 sm:py-1.5 sm:text-xs">
           <FontAwesomeIcon icon={faCamera} />
           {profileCover ? "Change cover" : "Add cover"}
           <input

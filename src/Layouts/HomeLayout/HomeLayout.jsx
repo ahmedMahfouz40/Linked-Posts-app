@@ -6,7 +6,7 @@ const HomeLayout = () => {
   return (
     <div className="dark:bg-slate-950">
       <Helmet>
-        <title>Home Feed | Route Posts</title>
+        <title>Home Feed | Lucky Posts</title>
       </Helmet>
       <Navbar />
       <Outlet />

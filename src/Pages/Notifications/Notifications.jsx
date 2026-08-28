@@ -70,7 +70,7 @@ const Notifications = () => {
   return (
     <>
       <Helmet>
-        <title>Notifications | Route Posts</title>
+        <title>Notifications | Lucky Posts</title>
       </Helmet>
       <div className="p-1 bg-[#F0F2F5] sm:px-5 md:px-10 lg:px-20 dark:bg-slate-950 min-h-screen">
         <div className="bg-white my-20 rounded-2xl dark:bg-slate-900">
@@ -94,7 +94,7 @@ const Notifications = () => {
             )}
 
             {activeTab !== "all" && unreadNotifications?.length === 0 && (
-              <div className="space-y-2 p-3 sm:p-4">
+              <div className="space-y-2 p-3 sm:p-4  h-[50vh] ">
                 <div className="rounded-xl border border-slate-200 bg-slate-50 p-8 text-center dark:border-slate-700 dark:bg-slate-800">
                   <p className="text-sm font-semibold text-slate-500 dark:text-slate-400">
                     No unread notifications yet.

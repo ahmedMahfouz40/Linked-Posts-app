@@ -31,14 +31,14 @@ const Profile = () => {
       <Helmet>
         <title>
           {profileData?.name
-            ? `${profileData.name} Profile | Route Posts`
-            : "profile | Route Posts"}
+            ? `${profileData.name} Profile | Lucky Posts`
+            : "profile | Lucky Posts"}
         </title>
       </Helmet>
       <div className="space-y-5 sm:space-y-6">
         <section className="rounded-2xl border border-slate-200 bg-white shadow-[0_2px_10px_rgba(15,23,42,.06)] sm:rounded-[28px] dark:border-slate-700 dark:bg-slate-900 dark:shadow-[0_2px_10px_rgba(0,0,0,.4)]">
           <ProfileCover />
-          <div className="relative -mt-12 px-2 pb-5 sm:-mt-16 sm:px-8 sm:pb-6  md:max-w-[90%] xl:max-w-[80%] mx-auto">
+          <div className="relative  px-2 pb-5 -mt-5 sm:-mt-8 md:-md-10 lg:-mt-16  sm:px-8 sm:pb-6  md:max-w-[90%] xl:max-w-[80%] mx-auto">
             <div className="rounded-3xl border border-white/60 bg-white/92 p-3  sm:p-7 dark:border-slate-700/60 dark:bg-slate-900/92">
               <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
                 <ProfilePhoto

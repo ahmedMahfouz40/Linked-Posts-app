@@ -62,17 +62,17 @@ const Login = () => {
   return (
     <>
       <Helmet>
-        <title>Sign In | Route Posts </title>
+        <title>Sign In | Lucky Posts </title>
       </Helmet>
       <section className="  w-full max-w-107.5 lg:order-2 mx-auto">
         <div className="rounded-2xl bg-white p-4 sm:p-6 dark:bg-slate-900">
           {/* header that is hidden before Lg size */}
           <div className="mb-4 text-center lg:hidden">
             <h1 className="text-3xl font-extrabold tracking-tight text-[#00298d] dark:text-[#8fa8ff]">
-              Route Posts
+              Lucky Posts
             </h1>
             <p className="mt-1 text-base font-medium leading-snug text-slate-700 dark:text-slate-300">
-              Connect with friends and the world around you on Route Posts.
+              Connect with friends and the world around you on Lucky Posts.
             </p>
           </div>
           {/* buttons to toggel about register and login components */}
@@ -95,7 +95,7 @@ const Login = () => {
             </button>
           </div>
           <h2 className="text-2xl font-extrabold text-slate-900 dark:text-white">
-            Log in to Route Posts
+            Log in to Lucky Posts
           </h2>
           <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
             Log in and continue your social journey.

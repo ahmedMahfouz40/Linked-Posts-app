@@ -123,7 +123,7 @@ const Settings = () => {
   return (
     <div className="h-screen py-25">
       <Helmet>
-        <title>Change Password | Route Posts</title>
+        <title>Change Password | Lucky Posts</title>
       </Helmet>
       <div className="mx-auto max-w-7xl  px-3  ">
         <main className="min-w-0">

@@ -19,12 +19,13 @@ import LoadingSkeleton from "../../Components/LoadingSkeleton/LoadingSkeleton";
 import useToggleFollow from "../../CustomHooks/useToggleFollow";
 import ShowImage from "../../utils/ShowImage";
 import AuthContext from "../../Contexts/AuthContext/authContext";
-
+import ProfileCover from "./ProfileCover";
 const UserProfile = () => {
+  const [showUserProfile, setShowUserProfile] = useState(false);
   const navigate = useNavigate();
   const { profileData } = useContext(AuthContext);
   const { id } = useParams();
-
+  const handleOpen = useCallback(() => setShowUserProfile(true) , []);
   const { data: userData } = useGet(
     ["userData", id],
     `users/${id}/profile`,
@@ -37,6 +38,8 @@ const UserProfile = () => {
     `users/${UserInfo?._id}/posts`,
     Boolean(UserInfo?._id),
   );
+  const userCover = UserInfo?.cover;
+
   const posts = userPosts?.data?.data?.posts;
 
   const following = UserInfo?.followers?.some(
@@ -77,8 +80,8 @@ const UserProfile = () => {
       <Helmet>
         <title>
           {UserInfo?.name
-            ? `${UserInfo.name} Profile | Route Posts`
-            : "profile | Route Posts"}
+            ? `${UserInfo.name} Profile | Lucky Posts`
+            : "profile | Lucky Posts"}
         </title>
       </Helmet>
 
@@ -92,7 +95,17 @@ const UserProfile = () => {
         </button>
 
         <section className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900">
-          <div className="h-48 bg-[linear-gradient(112deg,#0f172a_0%,#1e3a5f_36%,#2b5178_72%,#5f8fb8_100%)]" />
+          {userCover ? (
+            <img
+              onClick={handleOpen}
+              src={userCover}
+              alt="user Cover"
+              className="cursor-pointer w-full"
+            />
+          ) : (
+            <div className="h-48 bg-[linear-gradient(112deg,#0f172a_0%,#1e3a5f_36%,#2b5178_72%,#5f8fb8_100%)]" />
+          )}
+
           <div className="relative -mt-14 px-3 pb-5 sm:px-5">
             <div className="flex flex-wrap items-end justify-between gap-4 rounded-2xl border border-white/70 bg-white/95 p-4 dark:border-slate-700/70 dark:bg-slate-900/95">
               <div className="flex items-end flex-wrap gap-3">
@@ -144,7 +157,9 @@ const UserProfile = () => {
           {isPosting ? (
             <LoadingSkeleton />
           ) : !posts?.length ? (
-            <p className="text-center text-gray-400 mt-10 dark:text-slate-500">No posts yet.</p>
+            <p className="text-center text-gray-400 mt-10 dark:text-slate-500">
+              No posts yet.
+            </p>
           ) : (
             posts.map((post) => <PostCard post={post} key={post._id} />)
           )}
@@ -154,6 +169,11 @@ const UserProfile = () => {
       <ShowImage
         showImageViewer={showImageViewer}
         setShowImageViewer={setShowImageViewer}
+        Info={imageInfo}
+      />
+      <ShowImage
+        showImageViewer={showUserProfile}
+        setShowImageViewer={setShowUserProfile}
         Info={imageInfo}
       />
     </div>

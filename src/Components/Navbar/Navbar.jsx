@@ -34,7 +34,7 @@ const Navbar = () => {
           alt="Logo"
           className="h-9 w-9 rounded-xl object-cover"
         />
-        <p className="hidden text-xl font-bold text-slate-900 md:block dark:text-white">
+        <p className="hidden text-xl font-bold text-slate-900 lg:block dark:text-white">
           Lucky Posts
         </p>
       </div>

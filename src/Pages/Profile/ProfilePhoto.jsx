@@ -127,7 +127,7 @@ const ProfilePhoto = ({ photo, name, username }) => {
           </p>
           <div className="mt-3 inline-flex items-center gap-2 rounded-full border border-[#d7e7ff] bg-[#eef6ff] px-3 py-1 text-xs font-bold text-[#0b57d0] dark:border-[#1e3a63] dark:bg-slate-800 dark:text-[#7fb0ff]">
             <FontAwesomeIcon icon={faUsers} />
-            Route Posts member
+            Lucky Posts member
           </div>
         </div>
       </div>
