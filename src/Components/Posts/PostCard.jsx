@@ -30,6 +30,7 @@ const PostCard = ({ post, isDetails }) => {
     onSuccess: (res) => {
       toast.success(res?.data?.message);
       queryClient.invalidateQueries(["posts"]);
+
       queryClient.invalidateQueries(["postDetails", postId]);
     },
     onError: () => toast.error("Post not deleted"),

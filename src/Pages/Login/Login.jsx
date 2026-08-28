@@ -32,6 +32,8 @@ const Login = () => {
     mutationFn: signin,
     onSuccess: (data) => {
       navigate("/");
+      
+      
       localStorage.setItem("token", data.data.data.token);
       setUserToken(data.data.data.token);
       toast.success(data.message, {

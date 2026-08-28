@@ -31,6 +31,7 @@ const AuthContextProvider = ({ children }) => {
     { retry: false },
   );
   const profileData = data?.data.data.user;
+  console.log("profile data " , profileData);
   
   const showLoading = !!token && isLoading;
   const { data: unred } = useGet(

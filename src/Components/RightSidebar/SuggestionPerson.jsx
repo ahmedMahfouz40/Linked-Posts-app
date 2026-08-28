@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 const SuggestionPerson = ({ suggested, mutateFollow, isPending }) => {
   return (
     <>
-      <div className="rounded-xl border border-slate-200 p-2 5 dark:border-slate-700">
+      <div className="rounded-xl border  border-slate-200 p-2 5 dark:border-slate-700">
         <div className="flex items-center justify-between gap-2">
           <Link
             to={`/profile/${suggested?._id}`}

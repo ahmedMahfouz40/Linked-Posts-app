@@ -1,14 +1,15 @@
 import { useCallback, useContext, useState } from "react";
-import Logo from "./../../assets/images/route.png";
+import Logo from "./../../assets/images/logo.png";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBars,
-  faComment,
+  faBell,
   faGear,
   faHouse,
   faMoon,
   faUser,
+  faUsers,
 } from "@fortawesome/free-solid-svg-icons";
 import AuthContext from "../../Contexts/AuthContext/authContext";
 import { toggleTheme } from "../../utils/toggleTheme";
@@ -25,16 +26,16 @@ const Navbar = () => {
   }, [logout, navigate]);
 
   return (
-    <header className="flex justify-between items-center bg-base-100 shadow-sm px-3.5 py-2 md:px-10 lg:px-20 fixed top-0 left-0 right-0 z-50 dark:bg-slate-900 dark:shadow-slate-950/40">
+    <header className="flex justify-between items-center bg-base-100 shadow-sm px-3.5 gap-1 sm:gap-2 py-2 md:px-10 lg:px-20 fixed top-0 left-0 right-0 z-50 dark:bg-slate-900 dark:shadow-slate-950/40">
       {/* Navbar Start */}
-      <div className="flex items-center gap-3 sm:gap-5">
+      <div className="flex items-center gap-1 sm:gap-3">
         <img
           src={Logo}
           alt="Logo"
           className="h-9 w-9 rounded-xl object-cover"
         />
         <p className="hidden text-xl font-bold text-slate-900 md:block dark:text-white">
-          Route Posts
+          Lucky Posts
         </p>
       </div>
 
@@ -56,12 +57,19 @@ const Navbar = () => {
             <FontAwesomeIcon icon={faUser} />
             <span className="hidden sm:inline">Profile</span>
           </NavLink>
+          <NavLink
+            to="/suggestions"
+            className="relative flex items-center gap-1.5 rounded-xl px-2.5 py-2 text-sm font-extrabold transition sm:gap-2 sm:px-3.5 xl:hidden text-slate-600 hover:bg-white/90 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-700/90 dark:hover:text-white"
+          >
+            <FontAwesomeIcon icon={faUsers} />
+            <span className="hidden sm:inline">Suggestions</span>
+          </NavLink>
 
           <NavLink
             to="/notifications"
             className="relative flex items-center gap-1.5 rounded-xl px-2.5 py-2 text-sm font-extrabold transition sm:gap-2 sm:px-3.5 text-slate-600 hover:bg-white/90 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-700/90 dark:hover:text-white"
           >
-            <FontAwesomeIcon icon={faComment} />
+            <FontAwesomeIcon icon={faBell} />
             {unreadCount > 0 && (
               <span className="absolute -right-2 -top-2 inline-flex min-w-4 items-center justify-center rounded-full bg-[#ef4444] px-1 text-[10px] font-black leading-4 text-white ring-2 ring-transparent dark:ring-slate-900">
                 {unreadCount}

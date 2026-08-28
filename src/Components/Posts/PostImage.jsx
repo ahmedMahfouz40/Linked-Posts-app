@@ -6,7 +6,7 @@ const PostImage = ({ postImage }) => {
 
   const handleOpen = useCallback(() => setShowImageViewer(true), []);
   const imageInfo = useMemo(() => ({ photo: postImage }), [postImage]);
-
+  
   if (!postImage) return null;
 
   return (

@@ -15,6 +15,7 @@ import "./App.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import AuthContextProvider from "./Contexts/AuthContext/AuthContextProvider";
+import Suggestions from "./Pages/Suggestions/Suggestions";
 
 //  Lazy-load every page-level component
 const MainLayout = lazy(() => import("./Layouts/MainLayout/MainLayout"));
@@ -80,6 +81,7 @@ const router = createBrowserRouter([
       { path: "profile", element: <Profile /> },
       { path: "profile/:id", element: <UserProfile /> },
       { path: "notifications", element: <Notifications /> },
+      { path: "suggestions", element: <Suggestions /> },
       { path: "postDetails/:id", element: <PostDetails /> },
       { path: "settings", element: <Settings /> },
     ],
