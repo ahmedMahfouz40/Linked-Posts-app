@@ -41,6 +41,11 @@ const PostHeader = ({ post }) => {
   const [showListPost, setShowListPost] = useState(false);
   const menuRef = useRef(null);
 
+  const profileLink =
+    profileData._id === post?.user._id
+      ? "/profile"
+      : `/profile/${post?.user._id}`;
+
   const { body: postText, createdAt: postDate, privacy, id: postId } = post;
   const { name, photo: userImage } = post?.user || {};
   const modalId = `delete_modal_${postId}`;
@@ -86,7 +91,7 @@ const PostHeader = ({ post }) => {
     <div className="postHeader rounded-t-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900">
       <div className="p-4">
         <div className="flex items-center gap-3">
-          <Link to={`/profile/${post?.user._id}`}>
+          <Link to={profileLink}>
             <img
               src={userImage}
               className="h-11 w-11 rounded-full object-cover"
@@ -96,7 +101,7 @@ const PostHeader = ({ post }) => {
           <div className="min-w-0 flex-1">
             <Link
               className="font-extrabold text-foreground hover:underline text-sm dark:text-white"
-              to={`/profile/${post?.user._id}`}
+              to={profileLink}
             >
               {name}
             </Link>
@@ -131,14 +136,14 @@ const PostHeader = ({ post }) => {
               >
                 {isBookmarkPending ? (
                   post.bookmarked ? (
-                    "Unsaving..."
+                    "Deleting..."
                   ) : (
                     "Saving..."
                   )
                 ) : (
                   <>
                     <FontAwesomeIcon icon={faBookmark} />
-                    {post.bookmarked ? "Unsave" : "Save"}
+                    {post.bookmarked ? "Delete" : "Save"}
                   </>
                 )}
               </button>

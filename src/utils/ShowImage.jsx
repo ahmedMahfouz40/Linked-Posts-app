@@ -29,7 +29,7 @@ const ShowImage = ({ showImageViewer, setShowImageViewer, Info }) => {
             </button>
 
             <img
-              src={Info?.photo}
+              src={Info?.photo || Info}
               alt={Info.name || "post"}
               className="max-h-[70vh] max-w-[80-vw] sm:max-h-[90vh] sm:max-w-[90vw] object-contain rounded-lg"
               onClick={(e) => e.stopPropagation()}

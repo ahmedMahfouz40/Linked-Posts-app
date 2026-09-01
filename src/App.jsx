@@ -66,12 +66,12 @@ const router = createBrowserRouter([
       </ProtectedRoute>
     ),
     children: [
-      { index: true, element: <Navigate to="/feed/community" replace /> },
+      { index: true, element: <Navigate to="/feed/myFeed" /> },
       {
         path: "feed",
         element: <FeedLayout />,
         children: [
-          { index: true, element: <Navigate to="community" replace /> },
+          { index: true, element: <Navigate to="/feed/myFeed" replace /> },
           { path: "myFeed", element: <MyFeed /> },
           { path: "myPosts", element: <MyPosts /> },
           { path: "community", element: <Post /> },

@@ -132,7 +132,11 @@ const Navbar = () => {
                 }}
                 className="p-2 block rounded font-semibold text-gray-700 tracking-wide border-b border-gray-300 dark:text-slate-200 dark:border-slate-600 dark:hover:bg-slate-700"
               >
-                <FontAwesomeIcon icon={faMoon} /> {isDark ? "light" : "Dark"}
+                <FontAwesomeIcon
+                  icon={faMoon}
+                  className={`${isDark && "text-yellow-300"}`}
+                />{" "}
+                {isDark ? "light" : "Dark"}
               </button>
             </li>
             <li>

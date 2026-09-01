@@ -4,7 +4,7 @@ import {
   useEffect,
   useMemo,
   useRef,
-  useState,
+  useReducer,
 } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -20,14 +20,14 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import axios from "axios";
-import React from "react";import headerObject from "../../utils/headerObject";
+import React from "react";
+import headerObject from "../../utils/headerObject";
 import timeAgoShort from "../../utils/timeAgo";
 import useGet from "../../CustomHooks/useGetPosts";
 import { Link } from "react-router-dom";
 import AuthContext from "../../Contexts/AuthContext/authContext";
 
 // ─ API functions (outside component — stable, no recreation)
-
 function deleteComment(postId, commentId) {
   return axios.delete(
     `https://route-posts.routemisr.com/posts/${postId}/comments/${commentId}`,
@@ -57,20 +57,53 @@ function createReply(postId, commentId, values) {
   );
 }
 
-//  Component
+// ─ Reducer
+const initialState = {
+  isOpen: false,
+  showReplyForm: false,
+  showReplies: false,
+  clickUpdate: false,
+  replyPreview: null,
+};
 
+function reducer(state, action) {
+  switch (action.type) {
+    case "TOGGLE_MENU":
+      return { ...state, isOpen: !state.isOpen };
+    case "CLOSE_MENU":
+      return { ...state, isOpen: false };
+    case "TOGGLE_REPLY_FORM":
+      return { ...state, showReplyForm: !state.showReplyForm };
+    case "TOGGLE_REPLIES":
+      return { ...state, showReplies: !state.showReplies };
+    case "SHOW_REPLIES":
+      return { ...state, showReplies: true };
+    case "SET_CLICK_UPDATE":
+      return { ...state, clickUpdate: action.payload };
+    case "SET_REPLY_PREVIEW":
+      return { ...state, replyPreview: action.payload };
+    default:
+      return state;
+  }
+}
+
+// ─ Component
 const AllComments = ({ post, comment, likeCommentFn, isPending }) => {
   const { profileData } = useContext(AuthContext);
   const queryClient = useQueryClient();
 
-  //  Destructure vlues
+  // Destructure values
   const { content, createdAt, image } = comment || {};
   const { name, photo } = comment?.commentCreator || {};
   const commentCreatorId = comment?.commentCreator?._id;
   const profileUserId = profileData?._id;
   const commentContent = comment?.content;
+  const profileLink =
+    profileUserId === commentCreatorId
+      ? "/profile"
+      : `/profile/${commentCreatorId}`;
 
-  //  Memoized values
+  // Memoized values
   const storageLikeKey = useMemo(
     () => `liked_comment_${comment._id}`,
     [comment._id],
@@ -84,38 +117,37 @@ const AllComments = ({ post, comment, likeCommentFn, isPending }) => {
     [storageLikeKey, comment.isLiked],
   );
 
-  //  UI state
-  const menuRef = useRef(null);
-  const [isOpen, setIsOpen] = useState(false);
-  const [showReplyForm, setShowReplyForm] = useState(false);
-  const [showReplies, setShowReplies] = useState(false);
-  const [clickUpdate, setClickUpdate] = useState(false);
-  const [replyPreview, setReplyPreview] = useState(null);
+  // ✅ useReducer instead of multiple useState
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const { isOpen, showReplyForm, showReplies, clickUpdate, replyPreview } =
+    state;
 
-  //  Click outside to close menu
+  const menuRef = useRef(null);
+
+  // Click outside to close menu
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (menuRef.current && !menuRef.current.contains(e.target)) {
-        setIsOpen(false);
+        dispatch({ type: "CLOSE_MENU" });
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  //  Delete comment
+  // Delete comment
   const { mutate: deleteFn, isPending: isDeleting } = useMutation({
     mutationFn: () => deleteComment(post._id, comment._id),
     onSuccess: (res) => {
       toast.success(res.data.message);
-      setIsOpen(false);
+      dispatch({ type: "CLOSE_MENU" });
       queryClient.invalidateQueries(["postComments", post._id]);
     },
     onError: (err) =>
       toast.error(err?.response?.data?.message ?? "Failed to delete comment"),
   });
 
-  //  Update comment
+  // Update comment
   const { register, handleSubmit, setValue } = useForm({
     defaultValues: { content: "", image: null },
   });
@@ -125,13 +157,13 @@ const AllComments = ({ post, comment, likeCommentFn, isPending }) => {
     onSuccess: (res) => {
       toast.success(res.data.message);
       queryClient.invalidateQueries(["postComments", post._id]);
-      setClickUpdate(false);
+      dispatch({ type: "SET_CLICK_UPDATE", payload: false });
     },
     onError: (err) =>
       toast.error(err?.response?.data?.message ?? "Failed to update comment"),
   });
 
-  //  Replies
+  // Replies
   const { data: repliesData, isFetching } = useGet(
     ["commentReplies", comment._id],
     `posts/${comment.post}/comments/${comment._id}/replies?page=1&limit=10`,
@@ -139,7 +171,7 @@ const AllComments = ({ post, comment, likeCommentFn, isPending }) => {
   );
   const commentReplies = repliesData?.data?.data?.replies;
 
-  //  Reply form
+  // Reply form
   const {
     register: registerReply,
     handleSubmit: handleReplySubmit,
@@ -147,68 +179,80 @@ const AllComments = ({ post, comment, likeCommentFn, isPending }) => {
     getValues: getReplyValues,
   } = useForm({ defaultValues: { content: "", image: null } });
 
-  const handleReplyImageChange = useCallback((e) => {
-    const selected = e.target.files[0];
-    if (!selected) return;
-    setReplyPreview((prev) => {
-      if (prev) URL.revokeObjectURL(prev);
-      return URL.createObjectURL(selected);
-    });
-  }, []);
-
+  const handleReplyImageChange = useCallback(
+    (e) => {
+      const selected = e.target.files[0];
+      if (!selected) return;
+      if (replyPreview) URL.revokeObjectURL(replyPreview);
+      dispatch({
+        type: "SET_REPLY_PREVIEW",
+        payload: URL.createObjectURL(selected),
+      });
+    },
+    [replyPreview],
+  );
   const handleRemoveReplyImage = useCallback(() => {
-    setReplyPreview((prev) => {
-      if (prev) URL.revokeObjectURL(prev);
-      return null;
-    });
+    if (replyPreview) URL.revokeObjectURL(replyPreview);
+    dispatch({ type: "SET_REPLY_PREVIEW", payload: null });
     resetReply({ content: getReplyValues("content"), image: null });
-  }, [getReplyValues, resetReply]);
+  }, [getReplyValues, resetReply, replyPreview]);
 
-  //  Create reply
+  // Create reply
   const { mutate: createReplyFn, isPending: isReplying } = useMutation({
     mutationFn: (values) => createReply(post._id, comment._id, values),
     onSuccess: async (res) => {
       toast.success(res.data.message);
       if (replyPreview) URL.revokeObjectURL(replyPreview);
-      setReplyPreview(null);
+      dispatch({ type: "SET_REPLY_PREVIEW", payload: null });
       resetReply();
-      setShowReplies(true);
-
+      dispatch({ type: "SHOW_REPLIES" });
       await queryClient.invalidateQueries(["commentReplies", comment._id]);
     },
     onError: (err) =>
       toast.error(err?.response?.data?.message ?? "Failed to create reply"),
   });
 
-  //  Stable callbacks
+  // Stable callbacks
   const handleLike = useCallback(
     () => likeCommentFn(comment._id),
     [likeCommentFn, comment._id],
   );
 
   const handleToggleReplyForm = useCallback(
-    () => setShowReplyForm((prev) => !prev),
+    () => dispatch({ type: "TOGGLE_REPLY_FORM" }),
     [],
   );
 
   const handleToggleReplies = useCallback(
-    () => setShowReplies((prev) => !prev),
+    () => dispatch({ type: "TOGGLE_REPLIES" }),
     [],
   );
 
-  const handleToggleMenu = useCallback(() => setIsOpen((prev) => !prev), []);
+  const handleToggleMenu = useCallback(
+    () => dispatch({ type: "TOGGLE_MENU" }),
+    [],
+  );
 
   const handleEditClick = useCallback(() => {
-    setClickUpdate(true);
+    dispatch({ type: "SET_CLICK_UPDATE", payload: true });
     setValue("content", commentContent);
-    setIsOpen(false);
-  }, [setValue, commentContent, setClickUpdate, setIsOpen]);
+    dispatch({ type: "CLOSE_MENU" });
+  }, [setValue, commentContent]);
+
+  // Reply profile link helper
+  const getReplyProfileLink = useCallback(
+    (replyCreatorId) =>
+      replyCreatorId === profileUserId
+        ? "/profile"
+        : `/profile/${replyCreatorId}`,
+    [profileUserId],
+  );
 
   return (
     <div className="space-y-2 my-4 px-2 flex justify-between relative">
       <div className="relative flex items-start gap-2 w-full">
         {/* Avatar */}
-        <Link to={`/profile/${commentCreatorId}`}>
+        <Link to={profileLink}>
           <img
             src={photo}
             className="mt-0.5 h-8 w-8 rounded-full object-cover shrink-0"
@@ -220,7 +264,7 @@ const AllComments = ({ post, comment, likeCommentFn, isPending }) => {
           {/* Comment bubble */}
           <div className="relative inline-block max-w-full rounded-2xl bg-[#f0f2f5] px-3 py-2 dark:bg-slate-800">
             <Link
-              to={`/profile/${commentCreatorId}`}
+              to={profileLink}
               className="text-xs font-bold text-slate-900 hover:underline dark:text-slate-100"
             >
               {name}
@@ -243,7 +287,9 @@ const AllComments = ({ post, comment, likeCommentFn, isPending }) => {
                 </button>
                 <button
                   type="button"
-                  onClick={() => setClickUpdate(false)}
+                  onClick={() =>
+                    dispatch({ type: "SET_CLICK_UPDATE", payload: false })
+                  }
                   className="rounded-full border border-slate-300 bg-white px-3 py-1.5 text-xs font-bold text-slate-700 hover:bg-slate-100 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-slate-800"
                 >
                   Cancel
@@ -375,11 +421,13 @@ const AllComments = ({ post, comment, likeCommentFn, isPending }) => {
           {showReplies && (
             <div className="mt-2 ml-8 space-y-2">
               {isFetching ? (
-                <p className="text-xs text-slate-400 dark:text-slate-500">Loading replies...</p>
+                <p className="text-xs text-slate-400 dark:text-slate-500">
+                  Loading replies...
+                </p>
               ) : commentReplies?.length > 0 ? (
                 commentReplies.map((reply) => (
                   <div key={reply._id} className="flex items-start gap-2">
-                    <Link to={`/profile/${reply.commentCreator?._id}`}>
+                    <Link to={getReplyProfileLink(reply.commentCreator?._id)}>
                       <img
                         src={reply.commentCreator?.photo}
                         alt={reply.commentCreator?.name}
@@ -388,7 +436,7 @@ const AllComments = ({ post, comment, likeCommentFn, isPending }) => {
                     </Link>
                     <div className="rounded-2xl bg-[#f0f2f5] px-3 py-2 dark:bg-slate-800">
                       <Link
-                        to={`/profile/${reply.commentCreator?._id}`}
+                        to={getReplyProfileLink(reply.commentCreator?._id)}
                         className="text-xs font-bold text-slate-900 hover:underline dark:text-slate-100"
                       >
                         {reply.commentCreator?.name}
@@ -411,7 +459,9 @@ const AllComments = ({ post, comment, likeCommentFn, isPending }) => {
                   </div>
                 ))
               ) : (
-                <p className="text-xs text-slate-400 dark:text-slate-500">No replies yet.</p>
+                <p className="text-xs text-slate-400 dark:text-slate-500">
+                  No replies yet.
+                </p>
               )}
             </div>
           )}
@@ -422,7 +472,10 @@ const AllComments = ({ post, comment, likeCommentFn, isPending }) => {
       {commentCreatorId === profileUserId && (
         <div ref={menuRef}>
           <span onClick={handleToggleMenu} className="cursor-pointer">
-            <FontAwesomeIcon icon={faEllipsis} className="text-gray-600 dark:text-slate-400" />
+            <FontAwesomeIcon
+              icon={faEllipsis}
+              className="text-gray-600 dark:text-slate-400"
+            />
           </span>
           <div
             className={`absolute end-10 bg-white shadow rounded-xl border border-gray-300 flex flex-col gap-2 text-sm z-10 dark:bg-slate-800 dark:border-slate-600 dark:shadow-slate-950/40 ${!isOpen && "hidden"}`}

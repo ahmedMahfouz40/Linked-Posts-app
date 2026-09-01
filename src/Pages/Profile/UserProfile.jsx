@@ -174,7 +174,7 @@ const UserProfile = () => {
       <ShowImage
         showImageViewer={showUserProfile}
         setShowImageViewer={setShowUserProfile}
-        Info={imageInfo}
+        Info={userCover}
       />
     </div>
   );
