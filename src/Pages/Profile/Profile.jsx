@@ -18,7 +18,8 @@ const Profile = () => {
     Boolean(profileData?._id),
   );
   const posts = data?.data?.data?.posts;
-
+  console.log("posts" , posts);
+  
   const { data: bookmarksData, isLoading: isSaving } = useGet(
     ["bookmarks"],
     "users/bookmarks",

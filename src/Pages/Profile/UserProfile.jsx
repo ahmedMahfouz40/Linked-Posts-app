@@ -25,7 +25,7 @@ const UserProfile = () => {
   const navigate = useNavigate();
   const { profileData } = useContext(AuthContext);
   const { id } = useParams();
-  const handleOpen = useCallback(() => setShowUserProfile(true) , []);
+  const handleOpen = useCallback(() => setShowUserProfile(true), []);
   const { data: userData } = useGet(
     ["userData", id],
     `users/${id}/profile`,
@@ -96,12 +96,15 @@ const UserProfile = () => {
 
         <section className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900">
           {userCover ? (
-            <img
-              onClick={handleOpen}
-              src={userCover}
-              alt="user Cover"
-              className="cursor-pointer w-full"
-            />
+            <div className="">
+              
+              <img
+                onClick={handleOpen}
+                src={userCover}
+                alt="user Cover"
+                className="cursor-pointer max-h-60 object-fill w-full "
+              />
+            </div>
           ) : (
             <div className="h-48 bg-[linear-gradient(112deg,#0f172a_0%,#1e3a5f_36%,#2b5178_72%,#5f8fb8_100%)]" />
           )}
